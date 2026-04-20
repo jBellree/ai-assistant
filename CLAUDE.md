@@ -38,17 +38,17 @@ Detailed business and content docs live in the root folder:
 
 ## Commands
 
-Slash commands live in `.claude/commands/`. Each `.md` file becomes a shortcut B can type as `/<name>` to jump straight into a workflow. `/menu` always lists what's currently available.
+Slash commands live in `.claude/commands/bs/`. Each `.md` file becomes a shortcut B can type as `/bs:<name>` to jump straight into a workflow. The `bs/` subfolder namespaces the commands so typing `/bs` in the command picker filters autocomplete to B's commands only (separating them from plugin/marketplace commands). `/bs:menu` always lists what's currently available.
 
 Current commands:
-- `/menu` -- list every available command
-- `/plan` -- morning check-in (invokes the daily-planning skill)
-- `/reminders` -- show Apple Reminders grouped (overdue, today, tomorrow, week, flagged)
-- `/content` -- draft a branded social post (invokes the social-content skill)
-- `/deals` -- current month deals by stage vs targets (Airtable CRM, read-only)
-- `/calls` -- today's dealer call priorities (Airtable Call Planner, read-only)
+- `/bs:menu` -- list every available command
+- `/bs:plan` -- morning check-in (invokes the daily-planning skill)
+- `/bs:reminders` -- show Apple Reminders grouped (overdue, today, tomorrow, week, flagged)
+- `/bs:content` -- draft a branded social post (invokes the social-content skill)
+- `/bs:deals` -- current month deals by stage vs targets (Airtable CRM, read-only)
+- `/bs:calls` -- today's dealer call priorities (Airtable Call Planner, read-only)
 
-Adding a new command is a single markdown file in `.claude/commands/` with a `description:` frontmatter line.
+Adding a new command is a single markdown file in `.claude/commands/bs/` with a `description:` frontmatter line. A new top-level namespace is just another subfolder under `.claude/commands/`.
 
 ## Skills
 
