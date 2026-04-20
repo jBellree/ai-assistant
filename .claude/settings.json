@@ -1,1 +1,12 @@
-{}
+{
+  "permissions": {
+    "allow": [
+      "Bash(.claude/scripts/reminders-slice.sh*)",
+      "Bash(~/code/apple-mcp/bin/reminders-helper list-reminders*)",
+      "Bash(~/code/apple-mcp/bin/reminders-helper list-lists*)",
+      "Bash(~/code/apple-mcp/bin/reminders-helper search*)",
+      "Bash(~/code/apple-mcp/bin/reminders-helper complete*)",
+      "Bash(~/code/apple-mcp/bin/reminders-helper uncomplete*)"
+    ]
+  }
+}
