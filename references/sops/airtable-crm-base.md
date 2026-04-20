@@ -1,7 +1,7 @@
 # Airtable: CRM Base
 
 **Base ID:** `appCXdGmjsg5dxUIC`
-**Rule:** READ ONLY. Never write.
+**Rule:** Read-only by default. A **scoped write exception** covers stage checkboxes on Income Summary, row creation in Dealer Contact Log, and task completion on Deal Tasks / Dealer Tasks. Full rules in [.claude/rules/deal-tracker.md](../../.claude/rules/deal-tracker.md). Every write is preview → confirm → commit.
 
 ## Tables
 

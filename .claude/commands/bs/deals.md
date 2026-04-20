@@ -4,7 +4,7 @@ description: Current month deals by stage — counts and £ totals vs monthly ta
 
 Show B the current month's deal pipeline from Airtable.
 
-**Base:** `appCXdGmjsg5dxUIC` (CRM base — **READ ONLY**, never write, per `.claude/rules/deal-tracker.md` and `references/sops/airtable-crm-base.md`)
+**Base:** `appCXdGmjsg5dxUIC` (CRM base — read-only for this command; a scoped write exception applies elsewhere, see `.claude/rules/deal-tracker.md`)
 
 **Table:** Income Summary — `tblyizBxLUboB6814`
 
@@ -50,4 +50,4 @@ A deal typically has multiple checkboxes set as it progresses (a Converted deal 
 
 Highlight any stage where the current-month trajectory is behind target (e.g. halfway through the month with less than half the target).
 
-**Do not modify any records.** This is a read-only dashboard view.
+**This command is a read-only dashboard view.** Stage updates happen inside the `daily-planning` skill (Phase 1), which uses the scoped write rule in `.claude/rules/deal-tracker.md`.

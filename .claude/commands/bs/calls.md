@@ -4,7 +4,7 @@ description: Today's dealer call priorities from the Dealer Call Planner
 
 Show B today's priority dealer calls from the Airtable CRM.
 
-**Base:** `appCXdGmjsg5dxUIC` (CRM base — **READ ONLY**, never write, per `.claude/rules/deal-tracker.md` and `references/sops/airtable-crm-base.md`)
+**Base:** `appCXdGmjsg5dxUIC` (CRM base — read-only for this command; logging call outcomes happens inside the `daily-planning` skill, see `.claude/rules/deal-tracker.md` for the scoped write rule)
 
 **Primary table:** Dealer Call Planner — `tblEUwKPuDGBHXbwm`
 **Cross-reference table:** Dealer Database — `tbldEZLgMGhHahWge` (has the A/B/C/D Category field — see dealer strategy memory)
@@ -33,4 +33,4 @@ Sort within each bucket by tier (A > B > C > D) then by days overdue.
 
 If the table has no overdue or due-today records, say so in one line and suggest B check whether the Call Planner is being maintained (the memory note says it's underused due to HubSpot dual-tracking).
 
-**Do not modify any records.** Read-only.
+**This command is a read-only dashboard view.** Logging call outcomes (new Dealer Contact Log rows) happens inside the `daily-planning` skill under the scoped write rule.
