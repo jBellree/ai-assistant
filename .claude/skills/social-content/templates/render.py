@@ -68,16 +68,36 @@ def main():
         action="store_true",
         help="Preview locally in browser, skip hcti.io (free). Use during design iteration.",
     )
+    ap.add_argument(
+        "--template-dir",
+        help="Directory containing the template .html. Defaults to this script's folder.",
+    )
+    ap.add_argument(
+        "--var",
+        action="append",
+        default=[],
+        help="Template variable, repeatable. Format: NAME=VALUE. Replaces {{NAME}} in the HTML.",
+    )
     args = ap.parse_args()
 
     root = Path(__file__).resolve().parents[4]
-    templates_dir = Path(__file__).resolve().parent
+    templates_dir = Path(args.template_dir).resolve() if args.template_dir else Path(__file__).resolve().parent
     tpl_path = templates_dir / f"{args.template}.html"
     if not tpl_path.exists():
         print(f"Template not found: {tpl_path}")
         sys.exit(1)
 
     html = tpl_path.read_text()
+
+    for pair in args.var:
+        if "=" not in pair:
+            print(f"Bad --var (expected NAME=VALUE): {pair}")
+            sys.exit(1)
+        name, value = pair.split("=", 1)
+        if "\u2014" in value or "\u2013" in value:
+            print(f"ERROR: --var {name} contains em or en dashes. Rewrite without them.")
+            sys.exit(1)
+        html = html.replace("{{" + name + "}}", value)
 
     if "\u2014" in html or "\u2013" in html:
         print("ERROR: template contains em or en dashes. Remove them before rendering.")

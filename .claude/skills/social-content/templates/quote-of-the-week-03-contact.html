@@ -1,0 +1,97 @@
+<!--
+Quote of the Week carousel, Slide 3 of 3: Contact CTA.
+Size: 1080 x 1350 (portrait, Instagram + WhatsApp friendly).
+
+Tokens:
+  {{APR_REP}}  Representative APR in footer. Default "8.9%".
+
+Contact details are hard-coded from references/brand/compliance-disclaimers.md.
+Update this file if B's phone / email / address change.
+
+To preview locally (opens in browser, no hcti.io credits used):
+  python3 .claude/skills/social-content/templates/render.py \
+    quote-of-the-week-03-contact --local --var APR_REP="8.9%"
+
+Rules:
+  1. Never use em or en dashes. render.py will refuse to render if any slip in.
+-->
+<div style="width:1080px;height:1350px;background:#1A212E;position:relative;overflow:hidden;font-family:Poppins,sans-serif;box-sizing:border-box;padding:56px 56px;">
+
+  <!-- top orange accent bar -->
+  <div style="position:absolute;top:0;left:0;right:0;height:8px;background:#ED792B;"></div>
+
+  <!-- centred logo -->
+  <div style="text-align:center;margin-top:40px;margin-bottom:64px;">
+    <img src="../../../../references/brand/logos/magnitude-full-brand.png" style="height:160px;" />
+  </div>
+
+  <!-- big headline, centred -->
+  <div style="text-align:center;
+              font-family:Poppins,sans-serif;font-weight:800;
+              font-size:68px;line-height:1.15;color:#fff;letter-spacing:-0.5px;
+              text-transform:uppercase;">
+    Contact me today<br/>
+    for your own<br/>
+    bespoke quote on<br/>
+    any vehicle
+  </div>
+
+  <!-- contact rows -->
+  <div style="margin-top:72px;display:flex;flex-direction:column;gap:24px;align-items:center;">
+
+    <!-- WhatsApp / phone -->
+    <div style="display:flex;align-items:center;gap:22px;">
+      <div style="width:60px;height:60px;border-radius:999px;background:#ED792B;display:flex;align-items:center;justify-content:center;">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.296-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.247-.694.247-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" fill="#fff"/>
+          <path d="M20.52 3.449A11.815 11.815 0 0012.05 0C5.495 0 .16 5.336.157 11.892a11.85 11.85 0 001.595 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.555 0 11.89-5.335 11.893-11.892a11.82 11.82 0 00-3.423-8.453zm-8.47 18.297h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.981.999-3.648-.235-.374a9.86 9.86 0 01-1.511-5.26c.002-5.45 4.437-9.884 9.889-9.884a9.82 9.82 0 016.99 2.898 9.825 9.825 0 012.892 6.994c-.002 5.45-4.437 9.885-9.888 9.885z" fill="#fff"/>
+        </svg>
+      </div>
+      <div style="font-family:Montserrat,sans-serif;font-weight:500;font-size:28px;color:#fff;">
+        +44 7855 448 593
+      </div>
+    </div>
+
+    <!-- envelope / email -->
+    <div style="display:flex;align-items:center;gap:22px;">
+      <div style="width:60px;height:60px;border-radius:999px;background:#ED792B;display:flex;align-items:center;justify-content:center;">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 6.5A2.5 2.5 0 015.5 4h13A2.5 2.5 0 0121 6.5v11a2.5 2.5 0 01-2.5 2.5h-13A2.5 2.5 0 013 17.5v-11z" stroke="#fff" stroke-width="2"/>
+          <path d="M4 7l8 6 8-6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div style="font-family:Montserrat,sans-serif;font-weight:500;font-size:26px;color:#fff;">
+        brian.rothwell@magnitudefinance.com
+      </div>
+    </div>
+
+    <!-- globe / website -->
+    <div style="display:flex;align-items:center;gap:22px;">
+      <div style="width:60px;height:60px;border-radius:999px;background:#ED792B;display:flex;align-items:center;justify-content:center;">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="9" stroke="#fff" stroke-width="2"/>
+          <path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div style="font-family:Montserrat,sans-serif;font-weight:500;font-size:28px;color:#fff;">
+        www.magnitudefinance.com
+      </div>
+    </div>
+
+  </div>
+
+  <!-- footer: APR rep + disclaimer + address -->
+  <div style="position:absolute;bottom:56px;left:56px;right:56px;text-align:center;">
+    <div style="height:1px;background:rgba(255,255,255,0.1);margin-bottom:18px;"></div>
+    <div style="font-family:Poppins,sans-serif;font-weight:600;font-size:22px;color:#ED792B;letter-spacing:0.5px;margin-bottom:8px;">
+      {{APR_REP}} APR Representative.
+    </div>
+    <div style="font-family:Montserrat,sans-serif;font-size:18px;color:rgba(255,255,255,0.72);line-height:1.45;margin-bottom:6px;">
+      We are a credit broker, not a lender.
+    </div>
+    <div style="font-family:Montserrat,sans-serif;font-size:14px;color:rgba(255,255,255,0.48);line-height:1.45;">
+      55-60 Pegholme, Wharfebank Mills, Ilkley Road, Otley, LS29 8JU
+    </div>
+  </div>
+
+</div>

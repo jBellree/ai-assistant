@@ -1,0 +1,104 @@
+<!--
+Quote of the Week carousel, Slide 1 of 3: Vehicle hero.
+Size: 1080 x 1350 (portrait, Instagram + WhatsApp friendly).
+
+Tokens (replaced at render time via render.py --var NAME=VALUE):
+  {{VEHICLE_TITLE}}    top headline, white Poppins 800.   e.g. "Used Porsche Taycan"
+  {{VEHICLE_VARIANT}}  orange sub-headline, Poppins 700.  e.g. "79.2kWh 4S Auto"
+  {{VEHICLE_IMG}}      relative path from this file to vehicle PNG in references/vehicle-library/
+
+Compositing (validated 2026-04-20, approved by B):
+  - mix-blend-mode: lighten on the <img> so dark studio and bright lifestyle
+    shots both blend into the #1A212E card.
+  - Radial mask on the <img> for softer feathered edges.
+  - Bottom gradient (~220px) fading image into a clean dark strip for text.
+  - Side fades ~160px wide, BOTTOM EDGE ONLY (top:620 bottom:0 on the 820px
+    image box). Never full-height. Never bottom-half. Banding up the sides
+    was explicitly rejected. See memory: feedback_vehicle_image_blend.md.
+
+To preview locally (opens in browser, no hcti.io credits used):
+  python3 .claude/skills/social-content/templates/render.py \
+    quote-of-the-week-01-hero \
+    --local \
+    --var VEHICLE_TITLE="Used Porsche Taycan" \
+    --var VEHICLE_VARIANT="79.2kWh 4S Auto" \
+    --var VEHICLE_IMG="../../../../references/vehicle-library/porsche/your-file.png"
+
+Rules:
+  1. Never use em or en dashes. render.py will refuse to render if any slip in.
+  2. VEHICLE_TITLE and VEHICLE_VARIANT are short (2 to 5 words each).
+-->
+<div style="width:1080px;height:1350px;background:#1A212E;position:relative;overflow:hidden;font-family:Poppins,sans-serif;box-sizing:border-box;">
+
+  <!-- top orange accent bar -->
+  <div style="position:absolute;top:0;left:0;right:0;height:8px;background:#ED792B;"></div>
+
+  <!-- eyebrow "QUOTE OF THE WEEK" top right -->
+  <div style="position:absolute;top:60px;right:56px;z-index:3;
+              font-family:Montserrat,sans-serif;font-weight:500;
+              font-size:18px;color:rgba(237,121,43,0.95);
+              text-transform:uppercase;letter-spacing:4px;">
+    Quote of the Week
+  </div>
+
+  <!-- headline block, top left -->
+  <div style="position:absolute;top:130px;left:56px;right:56px;z-index:3;">
+    <div style="font-family:Poppins,sans-serif;font-weight:800;
+                font-size:72px;color:#fff;line-height:1.05;letter-spacing:-1px;">
+      {{VEHICLE_TITLE}}
+    </div>
+    <div style="font-family:Poppins,sans-serif;font-weight:700;
+                font-size:56px;color:#ED792B;line-height:1.1;margin-top:8px;letter-spacing:-0.5px;">
+      {{VEHICLE_VARIANT}}
+    </div>
+  </div>
+
+  <!-- vehicle image layer, feathered into background -->
+  <div style="position:absolute;top:340px;left:0;right:0;height:820px;z-index:1;">
+    <img src="{{VEHICLE_IMG}}"
+      style="
+        position:absolute;
+        top:0;left:0;width:100%;height:100%;
+        object-fit:cover;
+        object-position:center;
+        -webkit-mask-image: radial-gradient(ellipse 72% 85% at center, rgba(0,0,0,1) 48%, rgba(0,0,0,0.9) 68%, rgba(0,0,0,0) 100%);
+        mask-image: radial-gradient(ellipse 72% 85% at center, rgba(0,0,0,1) 48%, rgba(0,0,0,0.9) 68%, rgba(0,0,0,0) 100%);
+        mix-blend-mode: lighten;
+      "
+    />
+    <!-- bottom fade so the CTA/footer sits on a clean dark strip -->
+    <div style="position:absolute;left:0;right:0;bottom:0;height:220px;
+                background: linear-gradient(to bottom, rgba(26,33,46,0) 0%, rgba(26,33,46,0.9) 65%, rgba(26,33,46,1) 100%);"></div>
+    <!-- side fades on the bottom edge only, merging bottom corners into the dark strip -->
+    <div style="position:absolute;top:620px;bottom:0;left:0;width:160px;
+                background: linear-gradient(to right, rgba(26,33,46,1) 0%, rgba(26,33,46,0) 100%);"></div>
+    <div style="position:absolute;top:620px;bottom:0;right:0;width:160px;
+                background: linear-gradient(to left, rgba(26,33,46,1) 0%, rgba(26,33,46,0) 100%);"></div>
+  </div>
+
+  <!-- swipe CTA, bottom right pill -->
+  <div style="position:absolute;bottom:120px;right:56px;z-index:3;
+              display:inline-flex;align-items:center;gap:16px;
+              background:rgba(237,121,43,0.12);
+              border:1px solid rgba(237,121,43,0.55);
+              border-radius:999px;padding:14px 24px;">
+    <div style="font-family:Poppins,sans-serif;font-weight:600;
+                font-size:20px;color:#fff;line-height:1.2;max-width:180px;">
+      Swipe for<br/>full finance<br/>example
+    </div>
+    <svg width="44" height="44" viewBox="0 0 24 24" fill="none"
+         xmlns="http://www.w3.org/2000/svg" style="flex:none;">
+      <path d="M5 12h14M13 6l6 6-6 6" stroke="#ED792B" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <!-- FCA disclaimer pinned bottom -->
+  <div style="position:absolute;bottom:32px;left:56px;right:56px;z-index:3;">
+    <div style="height:1px;background:rgba(255,255,255,0.1);margin-bottom:14px;"></div>
+    <div style="font-family:Montserrat,sans-serif;font-size:14px;color:rgba(255,255,255,0.48);line-height:1.45;">
+      We are a credit broker, not a lender. Magnitude Finance is a trading style of DSG Financial Services Ltd. Authorised and regulated by the FCA. FRN: 649675.
+    </div>
+  </div>
+
+</div>

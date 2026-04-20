@@ -1,0 +1,116 @@
+<!--
+testimonial-of-the-week template.
+Size: 1080 x 1350 (portrait, Instagram + WhatsApp friendly).
+
+A testimonial / pull-quote card. Single-slide. For carousel finance quotes
+see the quote-of-the-week-01/02/03 set.
+
+Tokens (replaced at render time via render.py --var NAME=VALUE):
+  {{VEHICLE_IMG}}      relative path from this file to vehicle PNG in references/vehicle-library/
+  {{QUOTE}}            pull-quote copy (max ~20 words, no em or en dashes)
+  {{ATTRIBUTION}}      who said it (no dashes: use "B, DSG Financial Services" not "B - DSG")
+  {{VEHICLE_CAPTION}}  small line under the quote, naming vehicle + product
+
+Compositing (validated 2026-04-20, approved by B):
+  - mix-blend-mode: lighten on the <img> so dark studio and bright lifestyle
+    shots both blend into the #1A212E card.
+  - Radial mask on the <img> for softer feathered edges.
+  - Bottom gradient (~220px) fading image into a clean dark strip for text.
+  - Side fades ~160px wide, BOTTOM EDGE ONLY (top:520 bottom:0 on the 700px
+    image box). Never full-height. Never bottom-half. Banding up the sides
+    was explicitly rejected. See memory: feedback_vehicle_image_blend.md.
+  - Same pattern as quote-of-the-week-01-hero.html (which has an 820px image
+    box and uses top:620). The `top` value scales with box height.
+
+To preview locally (opens in browser, no hcti.io credits used):
+  python3 .claude/skills/social-content/templates/render.py testimonial-of-the-week --local
+
+To render to PNG via hcti.io (drop --local):
+  python3 .claude/skills/social-content/templates/render.py \
+    testimonial-of-the-week \
+    --var VEHICLE_IMG="../../../../references/vehicle-library/lamborghini/2024-lamborghini-urus-performante-matte-black-34front-v6-moody-studio-rhd-driverside-wide.png" \
+    --var QUOTE="Clarity beats pressure every time. Plain English finance, no spin." \
+    --var ATTRIBUTION="B, DSG Financial Services" \
+    --var VEHICLE_CAPTION="Lamborghini Urus Performante. HP with Balloon."
+
+Rules:
+  1. Never use em or en dashes. render.py will refuse to render if any slip in.
+  2. Keep quote under ~20 words so it fits the box.
+-->
+<div style="width:1080px;height:1350px;background:#1A212E;position:relative;overflow:hidden;font-family:Poppins,sans-serif;box-sizing:border-box;">
+
+  <!-- top orange accent bar -->
+  <div style="position:absolute;top:0;left:0;right:0;height:8px;background:#ED792B;"></div>
+
+  <!-- logo, top left -->
+  <div style="position:absolute;top:40px;left:56px;z-index:3;">
+    <img src="../../../../references/brand/logos/magnitude-full-brand.png" style="height:56px;display:block;" />
+  </div>
+
+  <!-- "QUOTE OF THE WEEK" eyebrow label, top right -->
+  <div style="position:absolute;top:60px;right:56px;z-index:3;
+              font-family:Montserrat,sans-serif;font-weight:500;
+              font-size:18px;color:rgba(237,121,43,0.95);
+              text-transform:uppercase;letter-spacing:4px;">
+    Quote of the Week
+  </div>
+
+  <!-- vehicle image layer, feathered into background -->
+  <div style="position:absolute;top:140px;left:0;right:0;height:700px;z-index:1;">
+    <img src="{{VEHICLE_IMG}}"
+      style="
+        position:absolute;
+        top:0;left:0;width:100%;height:100%;
+        object-fit:cover;
+        object-position:center;
+        -webkit-mask-image: radial-gradient(ellipse 72% 85% at center, rgba(0,0,0,1) 48%, rgba(0,0,0,0.9) 68%, rgba(0,0,0,0) 100%);
+        mask-image: radial-gradient(ellipse 72% 85% at center, rgba(0,0,0,1) 48%, rgba(0,0,0,0.9) 68%, rgba(0,0,0,0) 100%);
+        mix-blend-mode: lighten;
+      "
+    />
+    <!-- bottom fade so the quote sits on a clean dark strip -->
+    <div style="position:absolute;left:0;right:0;bottom:0;height:220px;
+                background: linear-gradient(to bottom, rgba(26,33,46,0) 0%, rgba(26,33,46,0.85) 60%, rgba(26,33,46,1) 100%);"></div>
+    <!-- side fades on the bottom edge only, merging bottom corners into the dark strip -->
+    <div style="position:absolute;top:520px;bottom:0;left:0;width:160px;
+                background: linear-gradient(to right, rgba(26,33,46,1) 0%, rgba(26,33,46,0) 100%);"></div>
+    <div style="position:absolute;top:520px;bottom:0;right:0;width:160px;
+                background: linear-gradient(to left, rgba(26,33,46,1) 0%, rgba(26,33,46,0) 100%);"></div>
+  </div>
+
+  <!-- oversized orange quotation mark, sits over the image/text boundary -->
+  <div style="position:absolute;top:720px;left:48px;z-index:2;
+              font-family:Poppins,sans-serif;font-weight:800;
+              font-size:240px;line-height:1;color:#ED792B;opacity:0.95;">&ldquo;</div>
+
+  <!-- the pull-quote -->
+  <div style="position:absolute;top:870px;left:56px;right:56px;z-index:2;
+              font-family:Poppins,sans-serif;font-weight:700;color:#fff;
+              font-size:54px;line-height:1.22;">
+    {{QUOTE}}
+  </div>
+
+  <!-- attribution -->
+  <div style="position:absolute;bottom:230px;left:56px;right:56px;z-index:2;
+              font-family:Montserrat,sans-serif;font-weight:500;
+              font-size:26px;color:rgba(255,255,255,0.82);">
+    {{ATTRIBUTION}}
+  </div>
+
+  <!-- vehicle caption, orange uppercase -->
+  <div style="position:absolute;bottom:180px;left:56px;right:56px;z-index:2;
+              font-family:Montserrat,sans-serif;font-weight:500;
+              font-size:20px;color:rgba(237,121,43,0.95);
+              text-transform:uppercase;letter-spacing:3px;">
+    {{VEHICLE_CAPTION}}
+  </div>
+
+  <!-- FCA disclaimer pinned bottom -->
+  <div style="position:absolute;bottom:32px;left:56px;right:56px;z-index:2;">
+    <div style="height:1px;background:rgba(255,255,255,0.1);margin-bottom:14px;"></div>
+    <div style="font-family:Montserrat,sans-serif;font-size:14px;color:rgba(255,255,255,0.48);line-height:1.45;">
+      We are a credit broker, not a lender. Magnitude Finance is a trading style of DSG Financial Services Ltd. Authorised and regulated by the FCA. FRN: 649675.
+    </div>
+  </div>
+
+</div>
