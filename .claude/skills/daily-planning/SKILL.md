@@ -34,23 +34,130 @@ Skip this phase on a Monday morning or if no prior session file exists in the la
 
 ### Phase 1 — Deals
 
-1. Ask B: _"What's the one thing that would make today a win?"_ (the pulse check — keep it single-question, don't over-ask.)
-2. Run the Airtable query from [/.claude/commands/bs/deals.md](../../commands/bs/deals.md) — monthly pipeline counts + £ totals by stage, vs Targets. Write the snapshot into `## Monthly numbers`.
-3. Identify **movers needed today**:
-   - Deals with **Accepted** ticked but not **A.S.D** and created >5 days ago.
-   - Deals with **A.S.D** ticked but not **In for Payout** and that checkbox set >5 days ago.
-4. For each mover, ask B: _"{Customer} at {Dealer} — any move to make now?"_
-5. **If B says move it:** follow the write rule from [.claude/rules/deal-tracker.md](../../rules/deal-tracker.md). Preview:
-   > I'm about to update record `recXXX` in Income Summary:
-   > - A.S.D: ☐ → ☑
-   > Confirm?
-   Wait for "yes" / "go" / "ok". Commit. Log the change in today's `## Deals` section with record ID + time.
+Phase 1 opens with a **Slack-style one-screen briefing** (matching B's 09:00 Daily Hub Slack bot) so he can scan the whole pipeline in ~10 seconds before drilling in. Wall-of-deals dumps are banned.
 
-6. **Deal Tasks** — pull from `tblBTnl0O4USdkaQz` where Status is open and Task Date ≤ today. Present them grouped by linked Deal. Ask: _"Run through them?"_ For each, one at a time: _"{Task title} — done, defer, or still open?"_
-   - **Done:** preview Status → Done + Completed Date → today, commit, log in `## Deals > Deal Tasks`.
-   - **Defer:** ask new date, preview Task Date change, commit, log.
-   - **Still open:** leave as is, surface as a candidate for today's schedule if B wants.
-7. **New Deal Task** — if B says "add a task to chase the V5 for Clarke", preview: title, linked Deal, Task Date (default today), Reminder DateTime if given. Commit on confirm. (Writes flow to Todoist automatically — see rule doc.)
+**Field rules (don't get these wrong):**
+
+- **Proposals count** = records with `Created Time` (`fldq8OT9yTHSXHQun`) in the current calendar month. This is "new proposals submitted this month", excluding March carry-overs even if they're still active in April's bucket.
+- **All other monthly KPIs** (paid out, advances, cancellations, dealer sources, pipeline counts by status) = records with `Full Date Format` (`fld7fi7pTo0qBdeaL`) in the current calendar month. This captures the month's commercial output including carry-overs that settled this month.
+- **Days stuck at current stage** = `today − Last Modified` (`fldBxSjGuD9IL2x0I`) in whole days. Last Modified ticks forward every time a stage checkbox flips, so this is the true time-at-current-stage. **Never** substitute `Full Date Format` (month bucket) or `Created Time` (record creation).
+- **Carry-over tag** = if a deal's `Created Time` is in a prior month, tag it _(carry-over from {Month})_ in the drill-down view so B can see at a glance which deals originated before this month.
+
+**Deal listing format (applies to every mention of a deal, everywhere in this phase):**
+
+One deal, one bulleted line. Never comma-run two or more deals into a single sentence. Dealer name and customer name stay together on the same line (never break "AMB / John Holme" across lines). See memory `feedback_deal_listing_format.md` for the full rule.
+
+---
+
+#### Step 1 — Pulse check
+
+Ask B: _"What's the one thing that would make today a win?"_ Single question. Capture the answer verbatim into the session file's `**Win condition:**` line.
+
+#### Step 2 — Morning briefing (Slack-style one-screen summary)
+
+Run the Airtable queries from [/.claude/commands/bs/deals.md](../../commands/bs/deals.md) and compute per-status counts and £ totals using the field rules above. Then produce this exact briefing format:
+
+```
+**Morning B. Here's your {DayOfWeek} briefing.**
+
+**Today's win:** {win condition from Step 1}
+
+---
+
+### Monthly numbers so far
+
+- Proposals: **{n} / 150**
+- Paid out: **{n} / 63** (£{advances} / £2.5m)
+- Dealer sources: **{n} / 20**
+- D2C: **~{%}** of proposals (target 30 to 40%)
+- {n} cancelled acceptances parked at £{total}. {Top offender dealer} leads with {n} deals, £{total}
+
+---
+
+### Pipeline at a glance
+
+#### {n} awaiting decision
+{one-line summary: all fresh, or "X are 4+ days old"}
+
+#### {n} awaiting info
+{if any >5d, list them bulleted by customer + dealer; else "all fresh"}
+
+#### {n} accepted (£{total})
+{if any stuck >5d, state count and £ stuck, then bulleted standouts (1-3 worst)}
+- {Customer / Dealer} at {X}d
+- {Customer / Dealer} at {X}d
+
+#### {n} acceptance non-prime (£{total})
+{same stuck logic as Accepted}
+
+#### {n} awaiting signed docs (£{total})
+{if any stuck >5d, list them; else "clean"}
+
+#### {n} in for payout (£{total})
+{always surface any stuck >5d — these are the highest-£ unlocks of the month}
+- {Customer / Dealer} £{amount} at {X}d
+
+---
+
+### Priorities today
+
+{Top 3 movers across all statuses, ranked by £ unlock potential, each as its own bullet:}
+1. {Customer / Dealer} at {stage}, £{amount}. {One-line action hint}.
+2. {Customer / Dealer} at {Xd} stuck. {Action hint: chase / re-propose / close}.
+3. {Customer / Dealer}...
+
+~£{total} of movement if all three shift.
+```
+
+Write this briefing into today's `## Monthly numbers` + `## Deals` sections of the session file. Then ask B which status he wants to drill into.
+
+#### Step 3 — Drill-down selection
+
+Present as radio buttons via `AskUserQuestion` (see memory `feedback_radio_button_ui.md` — B hates typing repetitive answers). Offer the 3 most urgent statuses plus an "other" fall-through. Typical options:
+
+1. **In For Payout ({n})** — recommended (always, if any are stuck >5d — biggest £ unlock)
+2. **Accepted ({n})** — if stuck deals exist
+3. **Awaiting Info ({n})** — if any are >5d old (customer-side chasers)
+4. **Something else** — B types the status or skips
+
+On selection, show the **full deal list for that one status**, grouped by dealer in alphabetical order, each deal on its own bullet. Format:
+
+```
+## {Status name} ({count}, £{total})
+
+### {Dealer Name (alphabetical)}
+- {Customer Name} £{amount} ({Xd} | new today | moved today) [_(carry-over from {Month})_ if applicable]
+- ...
+
+### {Next Dealer}
+- ...
+```
+
+After the drill-down is shown, ask about moves (Step 4). B may ask to drill into another status after — loop Step 3 as needed.
+
+#### Step 4 — Moves and task writes
+
+For each stuck deal B wants to progress, ask: _"{Customer} at {Dealer} — any move to make now?"_ One deal at a time, not batched.
+
+If B says move it, follow the write rule from [.claude/rules/deal-tracker.md](../../rules/deal-tracker.md):
+
+> I'm about to update record `recXXX` in Income Summary:
+> - A.S.D: ☐ → ☑
+> Confirm?
+
+Wait for "yes" / "go" / "ok". Commit. Log the change in today's `## Deals` section with record ID + time.
+
+#### Step 5 — Deal Tasks
+
+Pull from `tblBTnl0O4USdkaQz` where Status is open and Task Date ≤ today. Present grouped by linked Deal. Ask: _"Run through them?"_ For each, one at a time: _"{Task title} — done, defer, or still open?"_
+
+- **Done:** preview Status → Done + Completed Date → today, commit, log in `## Deals > Deal Tasks`.
+- **Defer:** ask new date, preview Task Date change, commit, log.
+- **Still open:** leave as is, surface as a candidate for today's schedule if B wants.
+
+#### Step 6 — New Deal Task
+
+If B says "add a task to chase the V5 for Clarke", preview: title, linked Deal, Task Date (default today), Reminder DateTime if given. Commit on confirm. (Writes flow to Todoist automatically — see rule doc.)
 
 ### Phase 2 — Dealer calls
 
