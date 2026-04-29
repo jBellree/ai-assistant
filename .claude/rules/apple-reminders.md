@@ -1,18 +1,6 @@
 # Apple Reminders — integration rules
 
-The EA reads and writes B's Apple Reminders via a self-hosted MCP server (a private fork of Dhravya/apple-mcp). Used primarily by the `daily-planning` skill, and on demand whenever B wants to capture a task mid-session.
-
-## Where the code lives
-
-| | |
-|---|---|
-| Fork | `jBellree/apple-mcp` (private, detached from upstream network) |
-| Local clone | `~/code/apple-mcp/` (outside Dropbox to avoid syncing `node_modules`) |
-| Runtime | Bun at `~/.bun/bin/bun` |
-| Registered with | `claude mcp add apple-mcp --scope user` (user scope, all sessions) |
-| Tools exposed | Reminders, Calendar, Notes, Contacts, Messages, Mail, Maps |
-
-All handlers are kept intact. EA currently only calls Reminders tools; other handlers stay dormant until B asks for them, at which point macOS prompts for the relevant Automation permission on first use.
+The EA reads and writes B's Apple Reminders via a self-hosted MCP server (`jBellree/apple-mcp`, private fork, running locally via Bun). Used primarily by the `daily-planning` skill, and on demand whenever B wants to capture a task mid-session.
 
 ## Scope and defaults
 
@@ -35,22 +23,4 @@ For batch writes (e.g. ticking off 5 completed reminders at end-of-day), preview
 
 ## When things break
 
-If apple-mcp stops working — a dep has a CVE, macOS changes break AppleScript, the server won't start, whatever — tell Claude in this repo:
-
-> update apple-mcp — [reason]
-
-Claude then reads the code at `~/code/apple-mcp/`, proposes a fix as a diff, you review and approve, Claude commits to the fork on GitHub. Pull from the other Mac when the fix is in.
-
-## Per-machine setup (e.g. adding the MacMini)
-
-```
-curl -fsSL https://bun.sh/install | bash        # if Bun not present
-mkdir -p ~/code && cd ~/code
-git clone git@github.com:jBellree/apple-mcp.git
-cd apple-mcp && bun install
-claude mcp add apple-mcp --scope user -- /Users/<user>/.bun/bin/bun run /Users/<user>/code/apple-mcp/index.ts
-```
-
-Each Mac needs its own macOS Automation permission grant. First tool call prompts; manual fallback is **System Settings → Privacy & Security → Automation → (terminal app or Claude Code) → enable Reminders**.
-
-Reminders content itself syncs via iCloud, so both machines see the same data regardless of which one the server is running on.
+If apple-mcp stops working, say "update apple-mcp — [reason]". Claude reads `~/code/apple-mcp/`, proposes a fix, commits to the fork. Setup instructions for new machines: see `reference_apple_mcp.md` in memory.

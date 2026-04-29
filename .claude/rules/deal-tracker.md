@@ -51,26 +51,6 @@ Before any write, show B the exact change and wait for "yes" / "go" / "ok":
 
 > I'm about to update record `recXYZ` in Income Summary:
 > - A.S.D: ☐ → ☑
-> - In for Payout: ☐ → ☐ (unchanged)
 > Confirm?
 
-For new Dealer Contact Log rows:
-
-> I'm about to add a Dealer Contact Log row:
-> - Dealer: Proctors (linked)
-> - Date: 2026-04-19
-> - Contact Type: Phone Call
-> - Notes: Spoke to Glyn, Defender prop coming
-> Confirm?
-
-Batch writes get a single combined preview before a single confirmation.
-
-### What still requires B to do it manually in Airtable
-
-- Creating new deal records (Income Summary rows).
-- Editing any deal field other than the stage checkboxes.
-- Creating new dealers, contacts, finance companies.
-- Updating Targets.
-- Anything that touches rollup fields or formulas.
-
-If B asks for one of these, EA proposes the change and gives him the Airtable URL to do it himself.
+Batch writes get a single combined preview before a single confirmation. For anything outside the permitted writes above (new deals, new dealers, editing non-stage fields), tell B and give him the Airtable URL to do it himself.

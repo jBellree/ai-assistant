@@ -43,14 +43,6 @@ Key/Value store for brand docs. Three records: Company Description, Buyer Person
 ### RSS Feeds — `tblkoXs9sqN6o4Tg2`
 RSS source list. B manages this in Content Hub UI. EA doesn't touch this table.
 
-## Write pattern (safety default)
+## Write rule
 
-Before any Airtable write, Claude shows the proposed change to B:
-
-> I'm about to update record `recXYZ` in Articles:
-> - Status: Ready → Posted
-> - Published Date: (empty) → 2026-04-18
-> - Platforms: +LinkedIn
-> Confirm?
-
-Only commit after B's "yes" / "go" / "ok".
+Confirm all writes with B before committing. See `.claude/rules/deal-tracker.md` for the write pattern.
