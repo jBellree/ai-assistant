@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "slack": {
+      "type": "http",
+      "url": "https://mcp.slack.com/mcp",
+      "oauth": { "clientId": "1601185624273.8899143856786", "callbackPort": 3118 }
+    },
+    "obsidian": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["@bitbonsai/mcpvault@latest", "/Users/brianrothwell/Dropbox/personal/obsidian/Bs Vault"]
+    },
+    "apple-mcp": {
+      "type": "stdio",
+      "command": "/Users/brianrothwell/.bun/bin/bun",
+      "args": ["run", "/Users/brianrothwell/code/apple-mcp/index.ts"]
+    }
+  }
+}
