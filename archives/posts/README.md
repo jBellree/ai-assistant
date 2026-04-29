@@ -17,9 +17,9 @@ Examples:
 
 ## What each file contains
 
-- Date, pillar, platforms, Bannerbear template used
+- Date, pillar, platforms, image template used
 - Full post copy (exactly as posted)
-- Image variables passed to Bannerbear
+- Image variables passed to hcti.io (older posts reference Bannerbear, which was the previous image system)
 - Image URL (for reference)
 
 ## Do not delete files from this folder

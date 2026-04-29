@@ -1,6 +1,6 @@
 # Logos
 
-Drop your logo files here. Required for Bannerbear template setup.
+Logo files used for hcti.io image generation. When passed to templates, logos are base64-encoded strings.
 
 ## Files needed
 
@@ -16,7 +16,7 @@ Drop your logo files here. Required for Bannerbear template setup.
 - PNG with transparent background preferred
 - Keep originals here — never compress or resize the source files
 
-## Usage in Bannerbear
+## Usage in hcti.io
 
-When building templates, upload the logo file to Bannerbear's image library.
+Convert the logo file to a base64 string and pass it as an image variable to the hcti.io template.
 Use `magnitude-logo-white.png` on all dark background templates.

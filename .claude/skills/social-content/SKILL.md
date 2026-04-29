@@ -6,12 +6,7 @@ description: Skill: Social Content Generator
 # Skill: Social Content Generator
 
 ## Trigger phrases
-- "content"
-- "create a post"
-- "WhatsApp post"
-- "LinkedIn post"
-- "Instagram post"
-- `/social-content`
+"content", "create a post", "WhatsApp post", "LinkedIn post", "Instagram post", `/social-content`
 
 ## Purpose
 Generate branded social content for B's dealer WhatsApp group, LinkedIn, and Instagram.
@@ -141,19 +136,7 @@ Example: `2024-lamborghini-urus-performante-matte-black-34front-v6-moody-studio-
 
 If a regeneration is needed, increment the `v[N]`. Each PNG gets its own sidecar `.md` with the prompt and metadata. The current canonical version for a vehicle is marked `canonical: true` in its sidecar frontmatter; superseded versions stay on disk as `canonical: false` with a `status:` note explaining why they were archived. Nothing gets deleted or overwritten.
 
-**API parameter for aspect ratio:** pass `generationConfig.imageConfig.aspectRatio` to force non-square output:
-
-```json
-{
-  "contents": [{"parts": [{"text": "..."}]}],
-  "generationConfig": {
-    "responseModalities": ["IMAGE"],
-    "imageConfig": {"aspectRatio": "4:5"}
-  }
-}
-```
-
-Supported values: `"1:1"`, `"4:5"`, `"3:4"`, `"9:16"`, `"16:9"`, `"2:3"`, `"3:2"`.
+**API aspect ratio:** pass `generationConfig.imageConfig.aspectRatio` in the request body. Supported: `"1:1"` `"4:5"` `"3:4"` `"9:16"` `"16:9"` `"2:3"` `"3:2"`.
 
 Once all 6 answered, write the Gemini prompt using this skeleton:
 
@@ -284,13 +267,7 @@ On "yes" / "go" / "ok": commit the write via Airtable MCP. Otherwise skip / edit
 If the post came from `ideas.md` or a fresh idea, skip this step (no Airtable record to update) — but strike through or annotate the `ideas.md` line if it came from there.
 
 ### Step 9 — Done
-Show B:
-- Copy (formatted, ready to paste)
-- Image URL (hcti.io)
-- Archive path
-- Airtable record link (if updated)
-
-Remind which platform(s) it's for. Keep it short.
+Show B the copy, hcti.io URL, archive path, and Airtable link (if updated). One platform reminder. Keep it short.
 
 ---
 

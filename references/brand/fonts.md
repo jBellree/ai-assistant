@@ -6,7 +6,7 @@
 - Used for all headings and titles
 - Title focus word(s) in Burnt Orange `#ED792B`
 - Keep orange highlight under 50% of total title length
-- hcti.io / Bannerbear: use `Poppins` as the font name, weight 600 (Semi-Bold) or 700 (Bold)
+- hcti.io: use `Poppins` as the font name, weight 600 (Semi-Bold) or 700 (Bold)
 
 ## Body / Copy Font
 
