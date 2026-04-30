@@ -1,6 +1,6 @@
 # Airtable Schema — Content Hub base
 
-This is the Airtable base that powers DSG's Content Hub app and the EA social-content skill. **EA reads from these tables (RSS-curated article list) and writes back when a post ships** (status + published date). Everything else brand/pillar/drafts lives in EA markdown.
+This is the Airtable base that powers DSG's Content Hub app and the EA magnitude-social-content skill. **EA reads from these tables (RSS-curated article list) and writes back when a post ships** (status + published date). Everything else brand/pillar/drafts lives in EA markdown.
 
 **Write permission:** Claude can read AND write to this base freely (within the fields below). The CRM base `appCXdGmjsg5dxUIC` also has a **scoped** write exception defined in [.claude/rules/deal-tracker.md](.claude/rules/deal-tracker.md) (stage checkboxes, Dealer Contact Log creates, task completions — nothing else). Every other Airtable base remains read-only. Always show B the proposed change before committing a write.
 

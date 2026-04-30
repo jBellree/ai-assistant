@@ -6,7 +6,7 @@ A testimonial / pull-quote card. Single-slide. For carousel finance quotes
 see the quote-of-the-week-01/02/03 set.
 
 Tokens (replaced at render time via render.py --var NAME=VALUE):
-  {{VEHICLE_IMG}}      relative path from this file to vehicle PNG in references/vehicle-library/
+  {{VEHICLE_IMG}}      relative path from this file to vehicle PNG in library/vehicles/
   {{QUOTE}}            pull-quote copy (max ~20 words, no em or en dashes)
   {{ATTRIBUTION}}      who said it (no dashes: use "B, DSG Financial Services" not "B - DSG")
   {{VEHICLE_CAPTION}}  small line under the quote, naming vehicle + product
@@ -23,12 +23,12 @@ Compositing (validated 2026-04-20, approved by B):
     box and uses top:620). The `top` value scales with box height.
 
 To preview locally (opens in browser, no hcti.io credits used):
-  python3 .claude/skills/social-content/templates/render.py testimonial-of-the-week --local
+  python3 .claude/skills/magnitude-social-content/templates/render.py testimonial-of-the-week --local
 
 To render to PNG via hcti.io (drop --local):
-  python3 .claude/skills/social-content/templates/render.py \
+  python3 .claude/skills/magnitude-social-content/templates/render.py \
     testimonial-of-the-week \
-    --var VEHICLE_IMG="../../../../references/vehicle-library/lamborghini/2024-lamborghini-urus-performante-matte-black-34front-v6-moody-studio-rhd-driverside-wide.png" \
+    --var VEHICLE_IMG="../../../../library/vehicles/lamborghini/2024-lamborghini-urus-performante-matte-black-34front-v6-moody-studio-rhd-driverside-wide.png" \
     --var QUOTE="Clarity beats pressure every time. Plain English finance, no spin." \
     --var ATTRIBUTION="B, DSG Financial Services" \
     --var VEHICLE_CAPTION="Lamborghini Urus Performante. HP with Balloon."

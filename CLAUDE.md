@@ -34,9 +34,10 @@ When dispatching subagents via Agent tool, set `model: "sonnet"` explicitly unle
 ## Workspace Layout
 
 - `context/` -- identity and priorities (read on demand except current-priorities above)
-- `references/` -- brand docs, SOPs, vehicle library
+- `references/` -- brand docs, SOPs, logos
 - `.claude/rules/` -- always-loaded safety and style rules
-- `.claude/skills/` -- detailed workflows loaded on demand
+- `.claude/skills/` -- detailed workflows loaded on demand. Each skill owns its own `templates/` subfolder; there is no top-level `templates/` folder.
 - `decisions/log.md` -- append-only decision log
 - `projects/` -- personal-brand, d2c-growth, tripplannr
-- `archives/` -- never delete, move here instead
+- `library/` -- active asset bank. `posts/magnitude/` and `posts/dsg/` (rendered cards + compliance records); `vehicles/` (vehicle image library)
+- `archives/` -- genuinely archival only (original brand .docx files). Never delete, move here instead

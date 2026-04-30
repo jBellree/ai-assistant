@@ -1,8 +1,8 @@
 # Social Content System — Current Status
 
-**Last updated:** 2026-04-18
+**Last updated:** 2026-04-30
 
-Read this first if you're a fresh Claude session picking up social-content work. It captures what's in flight and what the stable docs don't cover. For the architecture overview see [README.md](README.md). For the workflow see [.claude/skills/social-content/SKILL.md](../../.claude/skills/social-content/SKILL.md).
+Read this first if you're a fresh Claude session picking up social-content work. It captures what's in flight and what the stable docs don't cover. For the architecture overview see [README.md](README.md). For the workflow see [.claude/skills/magnitude-social-content/SKILL.md](../../.claude/skills/magnitude-social-content/SKILL.md).
 
 ---
 
@@ -19,17 +19,16 @@ Read this first if you're a fresh Claude session picking up social-content work.
 - hcti.io credentials in CLAUDE.local.md, working
 - Gemini API key in CLAUDE.local.md (nano banana, free tier via AI Studio), not yet wired into the skill flow
 - Logos: white, orange, brand (orange crest + white text), and crest-only all saved as both PNG and `.b64` in [references/brand/logos/](../../references/brand/logos/)
-- First template designed and iterated to v9: [.claude/skills/social-content/templates/magnitude_explainer.html](../../.claude/skills/social-content/templates/magnitude_explainer.html)
-- Render helper: [.claude/skills/social-content/templates/render.py](../../.claude/skills/social-content/templates/render.py) with `--local` for free browser preview and default mode for hcti.io PNG
+- First template designed and iterated to v9: [.claude/skills/magnitude-social-content/templates/explainer.html](../../.claude/skills/magnitude-social-content/templates/explainer.html)
+- Render helper: [.claude/skills/magnitude-social-content/templates/render.py](../../.claude/skills/magnitude-social-content/templates/render.py) with `--local` for free browser preview and default mode for hcti.io PNG
 - VS Code workspace configured: Claude docks to sidebar; Live Preview extension recommended for in-editor HTML preview
 
 ### Pending
 
-- [ ] Finalise `magnitude_explainer.html` design (substantially done, awaiting B's final sign-off)
-- [ ] Build `rate-watch.html` template (big-number callout, Rate Watch + Lender News)
-- [ ] Build `deal-spotlight.html` template (hero vehicle image + headline)
+- [ ] Finalise `explainer.html` design (substantially done, awaiting B's final sign-off)
+- [ ] Redesign `rate-watch.html` template (stub in place, originally `references/brand/template-preview.html`)
+- [ ] Redesign `single-quote-example.html` template (stub in place, was "deal spotlight")
 - [ ] Build `underwriting-tip.html` template (education card)
-- [ ] Build `finance-quote.html` template (full finance breakdown table)
 - [ ] Wire Gemini image generation into the skill flow (Step 5 of SKILL.md) so Claude calls the Gemini API after copy is finalised and saves the hero image locally
 - [ ] Run first end-to-end post through the skill
 - [ ] Sync remaining 2 Brand Settings records to Airtable (Buyer Persona + Company Description) when B starts actively using Content Hub
@@ -40,12 +39,12 @@ Read this first if you're a fresh Claude session picking up social-content work.
 
 ### Design iteration loop (no hcti credits used)
 1. Edit the HTML file directly in VS Code
-2. Either: click the Live Preview icon in the editor toolbar for a split-pane preview, OR `python3 .claude/skills/social-content/templates/render.py <template_name> --local` to open a polished preview in the browser
+2. Either: click the Live Preview icon in the editor toolbar for a split-pane preview, OR `python3 .claude/skills/magnitude-social-content/templates/render.py <template_name> --local` to open a polished preview in the browser
 3. Iterate until B signs off
 
 ### Production render (uses 1 hcti credit per call)
-`python3 .claude/skills/social-content/templates/render.py <template_name>` (no `--local`)
-Returns a PNG URL from hcti.io, also saves locally to `/tmp/hcti-previews/`.
+`python3 .claude/skills/magnitude-social-content/templates/render.py <template_name> --slug <slug>` (no `--local`)
+Returns a PNG URL from hcti.io and saves `card.png` to `library/posts/magnitude/YYYY-MM-DD-<slug>/`.
 
 ### hcti.io free tier
 **50 images/month.** Earlier in the build we burned several credits iterating. **Default to `--local` or Live Preview; only hit hcti for the final production render.** The `render.py --local` path is pixel-identical to hcti (both use Chrome to render).

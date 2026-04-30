@@ -1,13 +1,19 @@
 #!/usr/bin/env python3
 """
-Render a social-content template via hcti.io.
+Render a magnitude-social-content template via hcti.io.
 
 Usage:
-    python3 render.py <template_name> [--width 1080] [--height 1350]
+    python3 render.py <template_name> [--width 1080] [--height 1350] [--slug SLUG]
 
-Reads .claude/skills/social-content/templates/<template_name>.html,
+Reads .claude/skills/magnitude-social-content/templates/<template_name>.html,
 substitutes {{LOGO_*}} placeholders with base64 logos, POSTs to hcti.io via curl,
-downloads the PNG to /tmp/hcti-previews/<template_name>-TIMESTAMP.png.
+downloads the PNG to library/posts/magnitude/YYYY-MM-DD-<slug>/card.png.
+
+Pass --slug to set the folder name (e.g. "rate-watch-northridge"). Defaults to
+the template name if omitted.
+
+--local flag: writes a preview HTML to /tmp/hcti-previews/ and opens in browser.
+No hcti.io call, no credits, no PNG. Use during design iteration.
 
 Requires HCTI_API_USER_ID and HCTI_API_KEY in CLAUDE.local.md.
 
@@ -67,6 +73,11 @@ def main():
         "--local",
         action="store_true",
         help="Preview locally in browser, skip hcti.io (free). Use during design iteration.",
+    )
+    ap.add_argument(
+        "--slug",
+        default=None,
+        help="Post slug for the output folder name (e.g. 'rate-watch-northridge'). Defaults to template name.",
     )
     ap.add_argument(
         "--template-dir",
@@ -179,10 +190,11 @@ def main():
     url = resp["url"]
     print(f"URL: {url}")
 
-    ts = time.strftime("%Y%m%d-%H%M%S")
-    out_dir = Path("/tmp/hcti-previews")
-    out_dir.mkdir(exist_ok=True)
-    out_path = out_dir / f"{args.template}-{ts}.png"
+    date_str = time.strftime("%Y-%m-%d")
+    slug = args.slug or args.template
+    out_dir = root / "library" / "posts" / "magnitude" / f"{date_str}-{slug}"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out_path = out_dir / "card.png"
     subprocess.run(["curl", "-sL", url, "-o", str(out_path)], check=True)
     print(f"Saved: {out_path}")
 

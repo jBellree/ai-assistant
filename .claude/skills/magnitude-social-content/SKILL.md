@@ -1,12 +1,12 @@
 ---
-name: social-content
+name: magnitude-social-content
 description: Skill: Social Content Generator
 ---
 
 # Skill: Social Content Generator
 
 ## Trigger phrases
-"content", "create a post", "WhatsApp post", "LinkedIn post", "Instagram post", `/social-content`
+"content", "create a post", "WhatsApp post", "LinkedIn post", "Instagram post", `/magnitude-social-content`
 
 ## Purpose
 Generate branded social content for B's dealer WhatsApp group, LinkedIn, and Instagram.
@@ -92,7 +92,7 @@ Now that the copy is finished, write a Gemini image prompt that fits the post:
 
 If `AskUserQuestion` is not loaded in the current session, use `ToolSearch` with `query: "select:AskUserQuestion"` to load it at the start of the workflow.
 
-Also applies when building the standalone vehicle library under `references/vehicle-library/`.
+Also applies when building the standalone vehicle library under `library/vehicles/`.
 
 1. **Year / trim?** (e.g. 2018 first-gen, Performante, S, SE hybrid) — no default, needs B's input
 2. **Colour and finish?** (solid gloss / metallic / pearl / matte / satin wrap) — no default
@@ -120,7 +120,7 @@ Also applies when building the standalone vehicle library under `references/vehi
 **Library folder structure:** vehicles are organised by manufacturer subfolder. Create a new folder when a new manufacturer is introduced.
 
 ```
-references/vehicle-library/
+library/vehicles/
 ├── lamborghini/
 │   └── 2024-lamborghini-urus-performante-...png + .md
 ├── ferrari/
@@ -132,7 +132,7 @@ references/vehicle-library/
 
 `[year]-[make]-[model]-[trim]-[colour]-[angle]-v[N]-[notes].png`
 
-Example: `2024-lamborghini-urus-performante-matte-black-34front-v6-moody-studio-rhd-driverside-wide.png` (lives in `references/vehicle-library/lamborghini/`)
+Example: `2024-lamborghini-urus-performante-matte-black-34front-v6-moody-studio-rhd-driverside-wide.png` (lives in `library/vehicles/lamborghini/`)
 
 If a regeneration is needed, increment the `v[N]`. Each PNG gets its own sidecar `.md` with the prompt and metadata. The current canonical version for a vehicle is marked `canonical: true` in its sidecar frontmatter; superseded versions stay on disk as `canonical: false` with a `status:` note explaining why they were archived. Nothing gets deleted or overwritten.
 
@@ -151,37 +151,38 @@ Call Gemini 2.5 Flash Image (Nano Banana) via API. Model ID: `gemini-2.5-flash-i
 
 Endpoint: `POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent?key=$GEMINI_API_KEY`
 
-The returned image is base64 under `candidates[0].content.parts[].inlineData.data`. Decode and save to: `archives/posts/YYYY-MM-DD-[slug]/hero.png`.
+The returned image is base64 under `candidates[0].content.parts[].inlineData.data`. Decode and save to: `library/posts/magnitude/YYYY-MM-DD-[slug]/hero.png`.
 
 Cost is ~$0.04 per image. If a post clearly needs higher fidelity (prestige / supercar hero), ask B before switching to `gemini-3-pro-image-preview` (Nano Banana Pro, ~3x cost).
 
 ### Step 6 — Compose the branded card (hcti.io)
 
-All branded card HTML templates live in `.claude/skills/social-content/templates/`.
+All branded card HTML templates live in `.claude/skills/magnitude-social-content/templates/`.
 
 **Templates that exist today:**
-- `magnitude-explainer.html` — 1080×1350 vertical explainer card (4 sections, checklists). Used for onboarding / "who is Magnitude" dealer posts.
+- `explainer.html` — 1080×1350 vertical explainer card (4 sections, checklists). Used for onboarding / "who is Magnitude" dealer posts.
 - `testimonial-of-the-week.html` — 1080×1350 pull-quote card with vehicle image. Single slide. For a quote from B or a customer testimonial.
 - `quote-of-the-week-01-hero.html` / `quote-of-the-week-02-breakdown.html` / `quote-of-the-week-03-contact.html` — 3-slide Instagram/LinkedIn/WhatsApp carousel for real finance quote examples (vehicle hero → full PCP/HP breakdown → contact CTA).
+- `rate-watch.html` — Rate Watch / lender news card. **Stub awaiting redesign in a follow-up brainstorm session** (was originally `references/brand/template-preview.html`).
+- `single-quote-example.html` — Single-slide quote / "deal spotlight" card. **Stub awaiting redesign in a follow-up brainstorm session.**
 
 **Templates to build as the need comes up** (listed in the skills backlog — build-on-demand, not upfront):
-- `deal-spotlight.html` — for Deal Spotlight posts
 - `underwriting-tip.html` — for Underwriting Masterclass posts
 
 If the pillar doesn't have a matching template yet, either (a) pick the closest existing template and adapt, or (b) stop and build the new template first with B. Do not invent template names that don't exist.
 
 Pillar → template mapping:
-- **Deal Spotlight** → `deal-spotlight.html` (to build) or adapt `testimonial-of-the-week.html` for now
-- **Rate Watch / Lender News** → no dedicated template; use plain copy + a Gemini hero image, no branded card, OR adapt `magnitude-explainer.html`
+- **Deal Spotlight** → `single-quote-example.html` (stub, redesign pending) or adapt `testimonial-of-the-week.html` for now
+- **Rate Watch / Lender News** → `rate-watch.html` (stub, redesign pending) or adapt `explainer.html`
 - **Underwriting Masterclass** → `underwriting-tip.html` (to build)
 - **Industry Insight** → no dedicated template; plain copy + Gemini hero
 - **Finance quote example** → use the `quote-of-the-week-01/02/03` carousel set
 
-**Render via `render.py`, not hand-rolled curl.** Every template in this folder is rendered through `.claude/skills/social-content/templates/render.py`, which handles token substitution, logo base64 injection, local image inlining, the em/en dash safety check, and the hcti.io POST. Do not build the payload manually.
+**Render via `render.py`, not hand-rolled curl.** Every template in this folder is rendered through `.claude/skills/magnitude-social-content/templates/render.py`, which handles token substitution, logo base64 injection, local image inlining, the em/en dash safety check, and the hcti.io POST. Do not build the payload manually.
 
 Canonical command shape:
 ```
-python3 .claude/skills/social-content/templates/render.py \
+python3 .claude/skills/magnitude-social-content/templates/render.py \
   <template-name> \
   --var TOKEN=VALUE \
   --var TOKEN=VALUE \
@@ -191,19 +192,19 @@ python3 .claude/skills/social-content/templates/render.py \
 - `<template-name>` is the `.html` filename without the extension, e.g. `quote-of-the-week-01-hero`.
 - Every `{{TOKEN}}` placeholder in the template needs a matching `--var`. The per-template token list lives in the comment block at the top of that template's `.html` file (read the template first).
 - `--local` writes a wrapped HTML to `/tmp/hcti-previews/` and opens it in the browser. No hcti.io call, no credits, no PNG. Use this while iterating on copy, layout, fades, typography.
-- Drop `--local` when B says "ship" or "render it". render.py then POSTs to hcti.io, downloads the returned PNG to `/tmp/hcti-previews/<template>-TIMESTAMP.png`, and prints the URL and saved path. The PNG is what gets uploaded to Instagram / WhatsApp / LinkedIn.
+- Drop `--local` when B says "ship" or "render it". render.py then POSTs to hcti.io, downloads the returned PNG to `library/posts/magnitude/YYYY-MM-DD-[slug]/card.png`, and prints the saved path. The PNG is what gets uploaded to Instagram / WhatsApp / LinkedIn.
 - Browser preview and hcti.io output are very close but not pixel-identical (font loading, subpixel rendering, blend mode behaviour can differ). Always eyeball one final hcti.io render before posting.
 - Credentials `HCTI_API_USER_ID` and `HCTI_API_KEY` are in `CLAUDE.local.md`. render.py reads them automatically.
 
 ### Vehicle image path convention
 
-Templates that reference a library vehicle expect a **relative path from the template file**. From `.claude/skills/social-content/templates/` up to the vehicle library is four levels:
+Templates that reference a library vehicle expect a **relative path from the template file**. From `.claude/skills/magnitude-social-content/templates/` up to the vehicle library is four levels:
 
 ```
-../../../../references/vehicle-library/<make>/<filename>.png
+../../../../library/vehicles/<make>/<filename>.png
 ```
 
-Pass this as `--var VEHICLE_IMG="../../../../references/vehicle-library/..."`. render.py's `inline_local_images` walks every `<img src="relative/path">` and rewrites it to a base64 data URI before sending to hcti.io, so the same `src` works when you open the template directly in a browser and when it ships to hcti.io.
+Pass this as `--var VEHICLE_IMG="../../../../library/vehicles/..."`. render.py's `inline_local_images` walks every `<img src="relative/path">` and rewrites it to a base64 data URI before sending to hcti.io, so the same `src` works when you open the template directly in a browser and when it ships to hcti.io.
 
 Logos follow the same pattern but with tokens: `{{LOGO_BRAND}}`, `{{LOGO_WHITE}}`, `{{LOGO_ORANGE}}`, `{{LOGO_CREST}}`. render.py substitutes these with base64 from `references/brand/logos/*.b64`. Never inline logos by hand.
 
@@ -224,7 +225,7 @@ If you add a new vehicle-image template, copy the image block from one of the tw
 Both use the same recipe (mix-blend-mode: lighten + radial mask + bottom gradient + bottom-edge-only side fades). The `top` value on the side fades scales with the image box height: aim for roughly `height minus 200` so the fades cover only the last ~200px of the image.
 
 ### Step 7 — Archive locally (FCA)
-Save `archives/posts/YYYY-MM-DD-[pillar]-[slug].md`:
+Save `library/posts/magnitude/YYYY-MM-DD-[slug]/post.md`:
 
 ```markdown
 ---
@@ -232,7 +233,8 @@ date: YYYY-MM-DD
 pillar: [pillar]
 platforms: [WhatsApp / LinkedIn / Instagram]
 template: [template name]
-hero_image: archives/posts/YYYY-MM-DD-[slug]/hero.png
+hero_image: library/posts/magnitude/YYYY-MM-DD-[slug]/hero.png
+card: library/posts/magnitude/YYYY-MM-DD-[slug]/card.png
 hcti_url: [returned URL]
 airtable_record_id: [recXXX or null]
 source: [rss / ideas.md / fresh]

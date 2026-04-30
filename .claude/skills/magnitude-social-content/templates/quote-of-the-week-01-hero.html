@@ -5,7 +5,7 @@ Size: 1080 x 1350 (portrait, Instagram + WhatsApp friendly).
 Tokens (replaced at render time via render.py --var NAME=VALUE):
   {{VEHICLE_TITLE}}    top headline, white Poppins 800.   e.g. "Used Porsche Taycan"
   {{VEHICLE_VARIANT}}  orange sub-headline, Poppins 700.  e.g. "79.2kWh 4S Auto"
-  {{VEHICLE_IMG}}      relative path from this file to vehicle PNG in references/vehicle-library/
+  {{VEHICLE_IMG}}      relative path from this file to vehicle PNG in library/vehicles/
 
 Compositing (validated 2026-04-20, approved by B):
   - mix-blend-mode: lighten on the <img> so dark studio and bright lifestyle
@@ -17,12 +17,12 @@ Compositing (validated 2026-04-20, approved by B):
     was explicitly rejected. See memory: feedback_vehicle_image_blend.md.
 
 To preview locally (opens in browser, no hcti.io credits used):
-  python3 .claude/skills/social-content/templates/render.py \
+  python3 .claude/skills/magnitude-social-content/templates/render.py \
     quote-of-the-week-01-hero \
     --local \
     --var VEHICLE_TITLE="Used Porsche Taycan" \
     --var VEHICLE_VARIANT="79.2kWh 4S Auto" \
-    --var VEHICLE_IMG="../../../../references/vehicle-library/porsche/your-file.png"
+    --var VEHICLE_IMG="../../../../library/vehicles/porsche/your-file.png"
 
 Rules:
   1. Never use em or en dashes. render.py will refuse to render if any slip in.

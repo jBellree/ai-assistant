@@ -22,13 +22,15 @@ Two-system workflow:
 | Curated RSS articles queue | Airtable `Articles` table (written by Content Hub UI, read by EA) |
 | Calendar (scheduled post dates) | Airtable `Articles.Published Date` → Content Hub calendar view |
 | Logos | [references/brand/logos/](../../references/brand/logos/) — base64 |
-| hcti.io card templates | [.claude/skills/social-content/templates/](../../.claude/skills/social-content/templates/) |
-| Gemini hero images | `archives/posts/YYYY-MM-DD-[slug]/hero.png` |
-| FCA post archive | [archives/posts/](../../archives/posts/) |
+| hcti.io card templates | [.claude/skills/magnitude-social-content/templates/](../../.claude/skills/magnitude-social-content/templates/) |
+| Gemini hero images | `library/posts/magnitude/YYYY-MM-DD-[slug]/hero.png` |
+| Rendered card PNGs | `library/posts/magnitude/YYYY-MM-DD-[slug]/card.png` |
+| FCA post archive | [library/posts/magnitude/](../../library/posts/magnitude/) |
+| Vehicle image library | [library/vehicles/](../../library/vehicles/) |
 
 ## How to use it
 
-Open a Claude Code session, say "content" or `/social-content`. The skill will:
+Open a Claude Code session, say "content" or `/bs:content`. The skill will:
 
 1. Ask you where the idea comes from (saved RSS, `ideas.md`, or fresh)
 2. Walk through pillar → details → platform → copy
@@ -66,10 +68,10 @@ See [references/content-pillars.md](../../references/content-pillars.md) for the
 - **Copy generation:** Claude (in Claude Code)
 - **Hero image generation:** Gemini 2.5 Flash Image (nano banana) via Google AI API
 - **Branded card composition:** hcti.io (HTML → PNG)
-- **Templates:** HTML files in `.claude/skills/social-content/templates/`
+- **Templates:** HTML files in `.claude/skills/magnitude-social-content/templates/`
 - **Logos:** Base64-encoded, stored in `references/brand/logos/*.b64`, embedded into templates at render time
 - **API credentials:** `CLAUDE.local.md` (git-ignored) — `HCTI_API_USER_ID`, `HCTI_API_KEY`, `GEMINI_API_KEY`
-- **Archive:** `archives/posts/` — every post saved for FCA record-keeping
+- **Post library:** `library/posts/magnitude/` — rendered card PNGs + FCA compliance records
 - **Airtable schema reference:** [.claude/rules/airtable-schema.md](../../.claude/rules/airtable-schema.md)
 
 ## Airtable write permission

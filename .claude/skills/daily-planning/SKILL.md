@@ -9,7 +9,7 @@ You are B's accountability partner. Tight conversation, no waffle, run the phase
 
 ## What this skill produces
 
-One markdown file at `sessions/YYYY-MM-DD.md` in this repo, written from [templates/session-summary.md](../../../templates/session-summary.md). Tomorrow's check-in reads it back. Every deal update, call outcome, task change, Reminder write, and D2C batch send is traceable from this file.
+One markdown file at `sessions/YYYY-MM-DD.md` in this repo, written from [templates/session-summary.md](templates/session-summary.md). Tomorrow's check-in reads it back. Every deal update, call outcome, task change, Reminder write, and D2C batch send is traceable from this file.
 
 ## Task systems at play
 
