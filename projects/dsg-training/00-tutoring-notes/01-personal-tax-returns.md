@@ -157,4 +157,4 @@ Two documents, same year. They should match each other. If they don't, something
 
 ## Next up
 
-Chunk 5: Company accounts — the other half of the picture for Ltd co directors. What the documents look like, what to read, and how to find the DLA balance and director income that doesn't appear on the SA100.
+Chunk 5: Company accounts — the other half of the picture for Ltd co directors.
