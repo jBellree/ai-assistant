@@ -64,7 +64,7 @@ One session may produce anywhere from 1 to 4 finalised ideas.
 
 ## Step 4 — Confirm brand and platform for each finalised idea
 
-For each idea B has approved, confirm using `AskUserQuestion`:
+Work through finalised ideas one at a time. For each, ask brand first, then platform, using two separate `AskUserQuestion` calls:
 
 **Brand:**
 - Magnitude Finance
@@ -74,13 +74,17 @@ For each idea B has approved, confirm using `AskUserQuestion`:
 - WhatsApp dealer group
 - LinkedIn
 - Instagram
-- Multiple (specify)
+- Multiple
+
+If B selects Multiple, follow up with a free-text question: "Which platforms?" then note the answer alongside the idea.
 
 ---
 
 ## Step 5 — Save all ideas to `ideas.md`
 
 Save ALL ideas from the session — finalised AND discarded — to `projects/social-content/ideas.md`.
+
+If the file does not exist, create it with the standard header from the plan before writing entries.
 
 Add new entries at the TOP of the file, above the `<!-- NEW ENTRIES GO ABOVE THIS LINE -->` marker.
 
@@ -91,11 +95,12 @@ Add new entries at the TOP of the file, above the `<!-- NEW ENTRIES GO ABOVE THI
 
 **Source:** [URL or description]
 **Pillar:** [pillar name]
+**Audience:** [audience]
 **Status:** Saved
 
 ### Idea: [idea title]
 
-[2-3 sentence description of the angle]
+[Angle: 2-3 sentence description]
 
 **Hook:** "[opening line]"
 
