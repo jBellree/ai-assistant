@@ -1,29 +1,20 @@
 # Post Ideas Backlog
 
-Rapid dump of post ideas. Not all will get used. Mixed quality is the point — bad ideas next to good ones spark more.
+All content ideas regardless of source. Captured by `/bs:ideate` and its sub-skills.
 
-**Conventions**
-- `[Pillar]` tag at the start of each line — one of: Deal Spotlight / Rate Watch / Lender News / Underwriting / Industry Insight
-- One line per idea; indent notes below if needed
-- `✅ posted YYYY-MM-DD` appended once an idea ships
-- Strike-through (`~~...~~`) for killed ideas
+**Status values:** `Saved` | `Drafted` | `Posted` | `Killed`
+
+**Source types:** YouTube | X | PLAUD | Daily | RSS | Fresh
 
 ---
 
-## LinkedIn (D2C / consumer)
-Audience: private buyers, business owners, HNWIs. B's personal brand.
-
-_(empty — add below)_
+<!-- NEW ENTRIES GO ABOVE THIS LINE — newest at top -->
 
 ---
 
-## WhatsApp (Dealer group)
-Audience: dealer partners. Trade-focused, practical, "what this means for you".
+## Legacy entries (pre-ideation layer)
 
-_(empty — add below)_
+Audience: LinkedIn (D2C / consumer)
+Audience: WhatsApp (Dealer group)
 
----
-
-## Both / unsorted
-
-_(empty — add below)_
+_(No ideas were logged before the ideation layer was built.)_
