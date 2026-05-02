@@ -29,7 +29,7 @@ When dispatching subagents via Agent tool, set `model: "sonnet"` explicitly unle
 
 ## Commands
 
-`/bs:menu` | `/bs:plan` | `/bs:reminders` | `/bs:content` | `/bs:deals` | `/bs:calls`
+`/bs:menu` | `/bs:plan` | `/bs:reminders` | `/bs:content` | `/bs:deals` | `/bs:calls` | `/bs:ideate`
 
 ## Workspace Layout
 
