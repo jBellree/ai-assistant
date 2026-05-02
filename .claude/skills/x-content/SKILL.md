@@ -14,12 +14,12 @@ Scrape recent X posts across fixed motor finance search queries and generate 4-6
 ## Flow
 
 ### Step 1 — Read the Apify API key
-Read `APIFY_API_KEY` from `CLAUDE.local.md`. If not present, tell B to add it and abort.
+Read `CLAUDE.local.md` using the Read tool. Find the line matching `APIFY_API_KEY=<value>` and extract the value. If the line is not present, tell B to add it to `CLAUDE.local.md` and abort.
 
 ### Step 2 — Fetch X posts
 Run:
 ```bash
-APIFY_API_KEY="<key>" python3 ".claude/skills/x-content/fetch_x.py"
+APIFY_API_KEY="$(grep 'APIFY_API_KEY' 'CLAUDE.local.md' | cut -d= -f2)" python3 ".claude/skills/x-content/fetch_x.py"
 ```
 
 Fixed search queries (baked into script):
