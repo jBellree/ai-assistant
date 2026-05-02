@@ -11,7 +11,7 @@ from youtube_transcript_api import YouTubeTranscriptApi
 
 def extract_video_id(url: str) -> str:
     patterns = [
-        r'(?:youtube\.com/watch\?v=|youtu\.be/|youtube\.com/embed/)([a-zA-Z0-9_-]{11})',
+        r'(?:youtube\.com/watch\?v=|youtu\.be/|youtube\.com/embed/|youtube\.com/shorts/)([a-zA-Z0-9_-]{11})',
         r'^([a-zA-Z0-9_-]{11})$',
     ]
     for pattern in patterns:
@@ -25,11 +25,18 @@ def fetch_transcript(url: str) -> str:
     video_id = extract_video_id(url)
     ytt = YouTubeTranscriptApi()
     transcript = ytt.fetch(video_id)
-    return " ".join(segment.text for segment in transcript)
+    return " ".join(segment.text.replace("\n", " ") for segment in transcript)
 
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: python3 fetch_transcript.py <youtube_url>", file=sys.stderr)
         sys.exit(1)
-    print(fetch_transcript(sys.argv[1]))
+    try:
+        print(fetch_transcript(sys.argv[1]))
+    except ValueError as e:
+        print(f"Error: {e}", file=sys.stderr)
+        sys.exit(1)
+    except Exception as e:
+        print(f"Error fetching transcript: {e}", file=sys.stderr)
+        sys.exit(1)
