@@ -35,15 +35,16 @@ def fetch_posts(api_key: str) -> list[dict]:
         run = client.actor(ACTOR_ID).call(run_input=run_input)
         for item in client.dataset(run["defaultDatasetId"]).iterate_items():
             post_id = item.get("id") or item.get("url", "")
-            if post_id not in seen_ids:
-                seen_ids.add(post_id)
-                all_posts.append({
-                    "query": query,
-                    "text": item.get("text", ""),
-                    "author": item.get("author", {}).get("userName", "unknown"),
-                    "url": item.get("url", ""),
-                    "created_at": item.get("createdAt", ""),
-                })
+            if not post_id or post_id in seen_ids:
+                continue
+            seen_ids.add(post_id)
+            all_posts.append({
+                "query": query,
+                "text": item.get("text", ""),
+                "author": (item.get("author") or {}).get("userName", "unknown"),
+                "url": item.get("url", ""),
+                "created_at": item.get("createdAt", ""),
+            })
 
     return all_posts
 
