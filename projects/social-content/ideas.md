@@ -8,6 +8,21 @@ All content ideas regardless of source. Captured by `/bs:ideate` and its sub-ski
 
 ---
 
+## 2026-05-02 | YouTube | Magnitude | LinkedIn
+
+**Source:** https://www.youtube.com/watch?v=J7Z24ksPu3w
+**Pillar:** Industry Insight
+**Audience:** LinkedIn
+**Status:** Saved
+
+### Idea: Jaecoo 7 tops UK sales charts — blip or signal?
+
+In March, the Jaecoo 7 became Britain's best-selling car, outselling the Ford Puma and Nissan Qashqai. Commentary on what that says about where the market is heading — measured, curious, no bold claims.
+
+**Hook:** "In March, a car most people in the UK had never heard of outsold the Ford Puma and the Nissan Qashqai. Is that a blip, or is it a signal of where this market is heading?"
+
+---
+
 <!-- NEW ENTRIES GO ABOVE THIS LINE — newest at top -->
 
 ---

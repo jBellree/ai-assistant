@@ -2,15 +2,17 @@
 """
 Render a magnitude-social-content template via hcti.io.
 
-Usage:
+Usage (template name — reads from templates/ folder):
     python3 render.py <template_name> [--width 1080] [--height 1350] [--slug SLUG]
 
-Reads .claude/skills/magnitude-social-content/templates/<template_name>.html,
-substitutes {{LOGO_*}} placeholders with base64 logos, POSTs to hcti.io via curl,
-downloads the PNG to library/posts/magnitude/YYYY-MM-DD-<slug>/card.png.
+Usage (direct file — reads card.html from anywhere, e.g. library/posts/):
+    python3 render.py --file library/posts/magnitude/YYYY-MM-DD-slug/card.html [--slug SLUG]
 
-Pass --slug to set the folder name (e.g. "rate-watch-northridge"). Defaults to
-the template name if omitted.
+Substitutes {{LOGO_*}} placeholders with base64 logos, POSTs to hcti.io via curl,
+downloads the PNG alongside the input file as card.png.
+
+Pass --slug to set the output folder name. Defaults to the template name or the
+parent folder name when --file is used.
 
 --local flag: writes a preview HTML to /tmp/hcti-previews/ and opens in browser.
 No hcti.io call, no credits, no PNG. Use during design iteration.
@@ -66,7 +68,8 @@ def load_env():
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("template", help="template name without .html (e.g. 'explainer')")
+    ap.add_argument("template", nargs="?", help="template name without .html (e.g. 'explainer')")
+    ap.add_argument("--file", help="Path to a card.html in the library (relative to workspace root or absolute). Use instead of template name.")
     ap.add_argument("--width", type=int, default=1080)
     ap.add_argument("--height", type=int, default=1350)
     ap.add_argument(
@@ -77,7 +80,7 @@ def main():
     ap.add_argument(
         "--slug",
         default=None,
-        help="Post slug for the output folder name (e.g. 'rate-watch-northridge'). Defaults to template name.",
+        help="Post slug for the output folder name. Defaults to template name or parent folder name.",
     )
     ap.add_argument(
         "--template-dir",
@@ -91,11 +94,23 @@ def main():
     )
     args = ap.parse_args()
 
+    if not args.template and not args.file:
+        print("Provide a template name or --file path.")
+        sys.exit(1)
+
     root = Path(__file__).resolve().parents[4]
-    templates_dir = Path(args.template_dir).resolve() if args.template_dir else Path(__file__).resolve().parent
-    tpl_path = templates_dir / f"{args.template}.html"
+
+    if args.file:
+        tpl_path = (root / args.file).resolve() if not Path(args.file).is_absolute() else Path(args.file).resolve()
+        templates_dir = tpl_path.parent
+        template_name = args.slug or tpl_path.parent.name
+    else:
+        templates_dir = Path(args.template_dir).resolve() if args.template_dir else Path(__file__).resolve().parent
+        tpl_path = templates_dir / f"{args.template}.html"
+        template_name = args.template
+
     if not tpl_path.exists():
-        print(f"Template not found: {tpl_path}")
+        print(f"File not found: {tpl_path}")
         sys.exit(1)
 
     html = tpl_path.read_text()
@@ -120,6 +135,8 @@ def main():
         "{{LOGO_WHITE}}": logos_dir / "magnitude-full-white.b64",
         "{{LOGO_ORANGE}}": logos_dir / "magnitude-full-orange.b64",
         "{{LOGO_CREST}}": logos_dir / "magnitude-crest.b64",
+        "{{LOGO_DSG_PRESTIGE}}": logos_dir / "dsg-prestige-dark.b64",
+        "{{LOGO_DSG_VISION}}": logos_dir / "dsg-vision-dark.b64",
     }
     for token, path in logo_map.items():
         if token in html and path.exists():
@@ -132,11 +149,11 @@ def main():
         out_dir = Path("/tmp/hcti-previews")
         out_dir.mkdir(exist_ok=True)
         ts = time.strftime("%Y%m%d-%H%M%S")
-        out_path = out_dir / f"{args.template}-{ts}.html"
+        out_path = out_dir / f"{template_name}-{ts}.html"
         wrapped = (
             "<!doctype html><html><head><meta charset='utf-8'>"
             "<link href='https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Montserrat:wght@400;500;600&display=swap' rel='stylesheet'>"
-            f"<title>{args.template} preview</title></head>"
+            f"<title>{template_name} preview</title></head>"
             f"<body style='margin:0;background:#0d0f1a;display:flex;justify-content:center;padding:24px;'>"
             f"<div style='box-shadow:0 0 40px rgba(0,0,0,0.5);'>{html}</div>"
             "</body></html>"
@@ -190,10 +207,13 @@ def main():
     url = resp["url"]
     print(f"URL: {url}")
 
-    date_str = time.strftime("%Y-%m-%d")
-    slug = args.slug or args.template
-    out_dir = root / "library" / "posts" / "magnitude" / f"{date_str}-{slug}"
-    out_dir.mkdir(parents=True, exist_ok=True)
+    if args.file:
+        out_dir = tpl_path.parent
+    else:
+        date_str = time.strftime("%Y-%m-%d")
+        slug = args.slug or template_name
+        out_dir = root / "library" / "posts" / "magnitude" / f"{date_str}-{slug}"
+        out_dir.mkdir(parents=True, exist_ok=True)
     out_path = out_dir / "card.png"
     subprocess.run(["curl", "-sL", url, "-o", str(out_path)], check=True)
     print(f"Saved: {out_path}")

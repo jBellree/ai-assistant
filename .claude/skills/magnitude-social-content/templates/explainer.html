@@ -2,14 +2,41 @@
 Magnitude Finance Explainer card template.
 Size: 1080 x 1350 (portrait, WhatsApp and Instagram friendly).
 
-To view locally: double-click this file or drag it into a browser.
-To render a real PNG via hcti.io: python3 .claude/skills/magnitude-social-content/templates/render.py explainer
-For a free browser preview (no hcti credits): add --local
-The render script auto-inlines the logo PNG as base64 when sending to hcti.io.
+To preview locally (no hcti.io credits):
+  python3 .claude/skills/magnitude-social-content/templates/render.py explainer --local \
+    --var S1_HEADING="🚗 Who are Magnitude?" \
+    --var "S1_BODY=<div style=\"padding-left:28px;position:relative;margin-bottom:4px;\"><span style=\"position:absolute;left:0;color:#ED792B;font-weight:700;\">•</span>Magnitude are part of the DSG Group</div><div style=\"padding-left:28px;position:relative;margin-bottom:4px;\"><span style=\"position:absolute;left:0;color:#ED792B;font-weight:700;\">•</span>It's DSG's <strong style=\"color:#fff;\">direct-to-consumer</strong> finance platform</div><div style=\"padding-left:28px;position:relative;margin-bottom:4px;\"><span style=\"position:absolute;left:0;color:#ED792B;font-weight:700;\">•</span>Access to the same lenders as through DSG</div>" \
+    --var S2_HEADING="🤔 Problems Dealers Face" \
+    --var "S2_BODY=<div style=\"padding-left:28px;position:relative;margin-bottom:4px;\"><span style=\"position:absolute;left:0;color:#ED792B;font-weight:700;\">•</span>Customers shop online for finance before arriving</div><div style=\"padding-left:28px;position:relative;margin-bottom:4px;\"><span style=\"position:absolute;left:0;color:#ED792B;font-weight:700;\">•</span>You lose control of the finance process</div><div style=\"padding-left:28px;position:relative;margin-bottom:4px;\"><span style=\"position:absolute;left:0;color:#ED792B;font-weight:700;\">•</span>Some brokers redirect buyers to other vehicles</div><div style=\"padding-left:28px;position:relative;margin-bottom:4px;\"><span style=\"position:absolute;left:0;color:#ED792B;font-weight:700;\">•</span>Costing you the sale and the commission</div>" \
+    --var S3_HEADING="👨🏻‍💻 What Magnitude Offers" \
+    --var "S3_BODY=<div style=\"padding-left:28px;position:relative;margin-bottom:4px;\"><span style=\"position:absolute;left:0;color:#ED792B;font-weight:700;\">•</span>Rates from <strong style=\"color:#fff;\">6.9%</strong> on Non-Regulated</div><div style=\"padding-left:28px;position:relative;margin-bottom:4px;\"><span style=\"position:absolute;left:0;color:#ED792B;font-weight:700;\">•</span>From <strong style=\"color:#fff;\">8.4% APR</strong> on PCP &amp; HP over £40k</div><div style=\"padding-left:28px;position:relative;margin-bottom:4px;\"><span style=\"position:absolute;left:0;color:#ED792B;font-weight:700;\">•</span><strong style=\"color:#fff;\">9.4% APR</strong> on PCP &amp; HP under £40k</div><div style=\"padding-left:28px;position:relative;margin-bottom:4px;\"><span style=\"position:absolute;left:0;color:#ED792B;font-weight:700;\">•</span>You stay in control. We still pay a fee</div>" \
+    --var S4_HEADING="🔧 How It Helps You" \
+    --var "S4_BODY=<div style=\"display:flex;align-items:center;margin-bottom:6px;\"><span style=\"font-size:38px;line-height:1;margin-right:16px;\">✅</span><span style=\"font-size:28px;line-height:1.3;\">Keeps you in the loop</span></div><div style=\"display:flex;align-items:center;margin-bottom:6px;\"><span style=\"font-size:38px;line-height:1;margin-right:16px;\">✅</span><span style=\"font-size:28px;line-height:1.3;\">Avoids losing finance to external brokers</span></div><div style=\"display:flex;align-items:center;margin-bottom:6px;\"><span style=\"font-size:38px;line-height:1;margin-right:16px;\">✅</span><span style=\"font-size:28px;line-height:1.3;\">Protects your vehicle sale</span></div><div style=\"display:flex;align-items:center;margin-bottom:6px;\"><span style=\"font-size:38px;line-height:1;margin-right:16px;\">✅</span><span style=\"font-size:28px;line-height:1.3;\">Still earns you a return</span></div>" \
+    --var DISCLAIMER="Representative APR 8.4%. We are a credit broker, not a lender. Magnitude Finance is a trading style of DSG Financial Services Ltd. Authorised and regulated by the FCA. FRN: 649675"
+
+To render to PNG via hcti.io (drop --local), same vars as above.
+
+Tokens (replaced at render time via render.py --var NAME=VALUE):
+  {{S1_HEADING}}   Section 1 heading, including emoji (e.g. "🚗 Who are Magnitude?")
+  {{S1_BODY}}      Section 1 body: raw HTML <div> rows using orange-bullet style
+  {{S2_HEADING}}   Section 2 heading, including emoji
+  {{S2_BODY}}      Section 2 body: raw HTML <div> rows using orange-bullet style
+  {{S3_HEADING}}   Section 3 heading, including emoji
+  {{S3_BODY}}      Section 3 body: raw HTML <div> rows using orange-bullet style
+  {{S4_HEADING}}   Section 4 heading, including emoji
+  {{S4_BODY}}      Section 4 body: raw HTML <div> rows using tick-row style (display:flex)
+  {{DISCLAIMER}}   FCA disclaimer line — must include Representative APR matching the
+                   lowest regulated APR quoted in S3_BODY
+
+Orange-bullet row template (sections 1-3):
+  <div style="padding-left:28px;position:relative;margin-bottom:4px;"><span style="position:absolute;left:0;color:#ED792B;font-weight:700;">•</span>Copy here</div>
+
+Tick-row template (section 4):
+  <div style="display:flex;align-items:center;margin-bottom:6px;"><span style="font-size:38px;line-height:1;margin-right:16px;">✅</span><span style="font-size:28px;line-height:1.3;">Copy here</span></div>
 
 Rules:
-1. Never use em or en dashes. Use commas, full stops, brackets, or line breaks.
-2. Representative APR must match the lowest APR publicly quoted in the card.
+1. Never use em or en dashes. render.py will refuse to render if any slip in.
+2. DISCLAIMER must quote Representative APR matching the lowest regulated APR in S3_BODY.
 -->
 <div style="width:1080px;height:1350px;background:#1A212E;position:relative;overflow:hidden;font-family:Poppins,sans-serif;box-sizing:border-box;padding:56px 56px;">
 
@@ -22,44 +49,33 @@ Rules:
   </div>
 
   <!-- Section 1 -->
-  <div style="font-size:38px;font-weight:800;color:#fff;margin-bottom:12px;">🚗 Who are Magnitude?</div>
+  <div style="font-size:38px;font-weight:800;color:#fff;margin-bottom:12px;">{{S1_HEADING}}</div>
   <div style="font-family:Montserrat,sans-serif;font-size:28px;color:rgba(255,255,255,0.88);line-height:1.45;margin-bottom:26px;">
-    <div style="padding-left:28px;position:relative;margin-bottom:4px;"><span style="position:absolute;left:0;color:#ED792B;font-weight:700;">•</span>Magnitude are part of the DSG Group</div>
-    <div style="padding-left:28px;position:relative;margin-bottom:4px;"><span style="position:absolute;left:0;color:#ED792B;font-weight:700;">•</span>It's DSG's <strong style="color:#fff;">direct-to-consumer</strong> finance platform</div>
-    <div style="padding-left:28px;position:relative;margin-bottom:4px;"><span style="position:absolute;left:0;color:#ED792B;font-weight:700;">•</span>Access to the same lenders as through DSG</div>
+    {{S1_BODY}}
   </div>
 
   <!-- Section 2 -->
-  <div style="font-size:38px;font-weight:800;color:#fff;margin-bottom:12px;">🤔 Problems Dealers Face</div>
+  <div style="font-size:38px;font-weight:800;color:#fff;margin-bottom:12px;">{{S2_HEADING}}</div>
   <div style="font-family:Montserrat,sans-serif;font-size:28px;color:rgba(255,255,255,0.88);line-height:1.45;margin-bottom:26px;">
-    <div style="padding-left:28px;position:relative;margin-bottom:4px;"><span style="position:absolute;left:0;color:#ED792B;font-weight:700;">•</span>Customers shop online for finance before arriving</div>
-    <div style="padding-left:28px;position:relative;margin-bottom:4px;"><span style="position:absolute;left:0;color:#ED792B;font-weight:700;">•</span>You lose control of the finance process</div>
-    <div style="padding-left:28px;position:relative;margin-bottom:4px;"><span style="position:absolute;left:0;color:#ED792B;font-weight:700;">•</span>Some brokers redirect buyers to other vehicles</div>
-    <div style="padding-left:28px;position:relative;margin-bottom:4px;"><span style="position:absolute;left:0;color:#ED792B;font-weight:700;">•</span>Costing you the sale and the commission</div>
+    {{S2_BODY}}
   </div>
 
   <!-- Section 3 -->
-  <div style="font-size:38px;font-weight:800;color:#fff;margin-bottom:12px;">👨🏻‍💻 What Magnitude Offers</div>
+  <div style="font-size:38px;font-weight:800;color:#fff;margin-bottom:12px;">{{S3_HEADING}}</div>
   <div style="font-family:Montserrat,sans-serif;font-size:28px;color:rgba(255,255,255,0.88);line-height:1.45;margin-bottom:26px;">
-    <div style="padding-left:28px;position:relative;margin-bottom:4px;"><span style="position:absolute;left:0;color:#ED792B;font-weight:700;">•</span>Rates from <strong style="color:#fff;">6.9%</strong> on Non-Regulated</div>
-    <div style="padding-left:28px;position:relative;margin-bottom:4px;"><span style="position:absolute;left:0;color:#ED792B;font-weight:700;">•</span>From <strong style="color:#fff;">8.4% APR</strong> on PCP &amp; HP over £40k</div>
-    <div style="padding-left:28px;position:relative;margin-bottom:4px;"><span style="position:absolute;left:0;color:#ED792B;font-weight:700;">•</span><strong style="color:#fff;">9.4% APR</strong> on PCP &amp; HP under £40k</div>
-    <div style="padding-left:28px;position:relative;margin-bottom:4px;"><span style="position:absolute;left:0;color:#ED792B;font-weight:700;">•</span>You stay in control. We still pay a fee</div>
+    {{S3_BODY}}
   </div>
 
   <!-- Section 4 -->
-  <div style="font-size:38px;font-weight:800;color:#fff;margin-bottom:12px;">🔧 How It Helps You</div>
+  <div style="font-size:38px;font-weight:800;color:#fff;margin-bottom:12px;">{{S4_HEADING}}</div>
   <div style="font-family:Montserrat,sans-serif;color:rgba(255,255,255,0.88);">
-    <div style="display:flex;align-items:center;margin-bottom:6px;"><span style="font-size:38px;line-height:1;margin-right:16px;">✅</span><span style="font-size:28px;line-height:1.3;">Keeps you in the loop</span></div>
-    <div style="display:flex;align-items:center;margin-bottom:6px;"><span style="font-size:38px;line-height:1;margin-right:16px;">✅</span><span style="font-size:28px;line-height:1.3;">Avoids losing finance to external brokers</span></div>
-    <div style="display:flex;align-items:center;margin-bottom:6px;"><span style="font-size:38px;line-height:1;margin-right:16px;">✅</span><span style="font-size:28px;line-height:1.3;">Protects your vehicle sale</span></div>
-    <div style="display:flex;align-items:center;margin-bottom:6px;"><span style="font-size:38px;line-height:1;margin-right:16px;">✅</span><span style="font-size:28px;line-height:1.3;">Still earns you a return</span></div>
+    {{S4_BODY}}
   </div>
 
   <!-- FCA disclaimer (pinned bottom) -->
   <div style="position:absolute;bottom:32px;left:56px;right:56px;">
     <div style="height:1px;background:rgba(255,255,255,0.1);margin-bottom:14px;"></div>
-    <div style="font-family:Montserrat,sans-serif;font-size:14px;color:rgba(255,255,255,0.45);line-height:1.45;">Representative APR 8.4%. We are a credit broker, not a lender. Magnitude Finance is a trading style of DSG Financial Services Ltd. Authorised and regulated by the FCA. FRN: 649675</div>
+    <div style="font-family:Montserrat,sans-serif;font-size:14px;color:rgba(255,255,255,0.45);line-height:1.45;">{{DISCLAIMER}}</div>
   </div>
 
 </div>
