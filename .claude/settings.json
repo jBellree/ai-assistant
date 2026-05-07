@@ -6,7 +6,15 @@
       "Bash(~/code/apple-mcp/bin/reminders-helper list-lists*)",
       "Bash(~/code/apple-mcp/bin/reminders-helper search*)",
       "Bash(~/code/apple-mcp/bin/reminders-helper complete*)",
-      "Bash(~/code/apple-mcp/bin/reminders-helper uncomplete*)"
+      "Bash(~/code/apple-mcp/bin/reminders-helper uncomplete*)",
+      "mcp__claude_ai_Airtable__list_records_for_table",
+      "mcp__claude_ai_Airtable__list_tables_for_base",
+      "mcp__claude_ai_Airtable__get_table_schema",
+      "mcp__claude_ai_Airtable__search_bases",
+      "mcp__claude_ai_Airtable__list_bases",
+      "mcp__claude_ai_Linear__list_issues",
+      "mcp__claude_ai_Linear__get_issue",
+      "Bash(xattr -l *)"
     ]
   },
   "enabledPlugins": {
