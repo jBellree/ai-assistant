@@ -19,8 +19,8 @@ Archives every post locally for FCA record-keeping and updates Airtable so Conte
 - @references/brand/what-i-do.md
 - @references/brand/social-post-checklist.md
 - @references/brand/compliance-disclaimers.md
-- @references/brand/colours.md
-- @references/brand/fonts.md
+- @references/brand/magnitude-colours.md
+- @references/brand/magnitude-fonts.md
 - @references/content-pillars.md
 - @.claude/rules/communication-style.md
 - @.claude/rules/content-guidelines.md
@@ -82,6 +82,17 @@ Now that the copy is finished, write a Gemini image prompt that fits the post:
 - Industry Insight → conceptual imagery tied to the topic
 
 #### Vehicle image sub-workflow (cars, vans, trucks, plant, any physical vehicle)
+
+**Step 0 — Always check for a reference image first.** Before generating, look in `library/vehicles/<make>/reference/` for source photos of the actual vehicle. If a reference exists, pass it to Gemini as an `inlineData` image input alongside the text prompt. This is the only reliable way to render lesser-known marques (e.g. Jaecoo, Omoda, BYD, GWM, Leapmotor) — Gemini's training data on these is too thin and produces generic SUV slop. Validated on Jaecoo 7 v5 (2026-05-07): reference image input transformed a generic SUV render into an accurate Jaecoo 7 with correct vertical chrome grille and JAECOO badge.
+
+If no reference exists for the make, fetch one with:
+```
+python3 .claude/skills/magnitude-social-content/scripts/fetch_reference.py <make>
+```
+This pulls 5 candidate images from Autotrader UK into `library/vehicles/<make>/reference/`. Pick the cleanest (3/4 front studio shot on white background is ideal) and rename it descriptively. Discard the rest.
+
+When passing a reference image to Gemini, use this prompt structure:
+> This reference image is a [year] [make] [model]. Recreate this exact same vehicle (same body shape, same [list distinctive features visible in reference]) but in [colour]. Place it in [setting]. [angle/lighting]. Photorealistic, sharp focus, shallow depth of field. The vehicle MUST match the reference exactly in every body detail.
 
 **Ask the 6 questions ONE AT A TIME. Never batch them.** Offer the brand default with each, B can accept the default or override.
 
@@ -178,33 +189,51 @@ Pillar → template mapping:
 - **Industry Insight** → no dedicated template; plain copy + Gemini hero
 - **Finance quote example** → use the `quote-of-the-week-01/02/03` carousel set
 
-**Render via `render.py`, not hand-rolled curl.** Every template in this folder is rendered through `.claude/skills/magnitude-social-content/templates/render.py`, which handles token substitution, logo base64 injection, local image inlining, the em/en dash safety check, and the hcti.io POST. Do not build the payload manually.
+**Workflow: create card.html in the library, iterate there, render from there.**
 
-Canonical command shape:
+Every post lives as a `card.html` in its library folder before it becomes a PNG. This means work is never lost across sessions — B can come back, edit the file, and pick up where he left off.
+
+**Step A — Create the post folder and card.html**
+
+1. Read the template `.html` to see its token list (in the comment block at the top).
+2. Substitute the tokens with the actual content for this post.
+3. Write the result to `library/posts/magnitude/YYYY-MM-DD-[slug]/card.html`.
+
+The `card.html` is a complete, standalone HTML file — no tokens remaining. It is the working copy. B can open it directly in a browser to preview, and edit it between sessions without needing Claude.
+
+**Step B — Preview (free, no hcti.io credits)**
+
 ```
 python3 .claude/skills/magnitude-social-content/templates/render.py \
-  <template-name> \
-  --var TOKEN=VALUE \
-  --var TOKEN=VALUE \
-  [--local]
+  --file library/posts/magnitude/YYYY-MM-DD-[slug]/card.html \
+  --local
 ```
 
-- `<template-name>` is the `.html` filename without the extension, e.g. `quote-of-the-week-01-hero`.
-- Every `{{TOKEN}}` placeholder in the template needs a matching `--var`. The per-template token list lives in the comment block at the top of that template's `.html` file (read the template first).
-- `--local` writes a wrapped HTML to `/tmp/hcti-previews/` and opens it in the browser. No hcti.io call, no credits, no PNG. Use this while iterating on copy, layout, fades, typography.
-- Drop `--local` when B says "ship" or "render it". render.py then POSTs to hcti.io, downloads the returned PNG to `library/posts/magnitude/YYYY-MM-DD-[slug]/card.png`, and prints the saved path. The PNG is what gets uploaded to Instagram / WhatsApp / LinkedIn.
+Opens in browser. Use this while iterating on copy, layout, typography. No credits used.
+
+**Step C — Render final PNG (uses one hcti.io credit)**
+
+When B says "ship it" or "render it", drop `--local`:
+
+```
+python3 .claude/skills/magnitude-social-content/templates/render.py \
+  --file library/posts/magnitude/YYYY-MM-DD-[slug]/card.html
+```
+
+render.py POSTs to hcti.io, downloads the PNG to `library/posts/magnitude/YYYY-MM-DD-[slug]/card.png`, and prints the saved path. That PNG is what gets uploaded to Instagram / WhatsApp / LinkedIn.
+
 - Browser preview and hcti.io output are very close but not pixel-identical (font loading, subpixel rendering, blend mode behaviour can differ). Always eyeball one final hcti.io render before posting.
 - Credentials `HCTI_API_USER_ID` and `HCTI_API_KEY` are in `CLAUDE.local.md`. render.py reads them automatically.
 
 ### Vehicle image path convention
 
-Templates that reference a library vehicle expect a **relative path from the template file**. From `.claude/skills/magnitude-social-content/templates/` up to the vehicle library is four levels:
+`card.html` files live at `library/posts/magnitude/YYYY-MM-DD-[slug]/card.html`. The relative path from there to the vehicle library is three levels up then into `library/vehicles/`:
 
 ```
-../../../../library/vehicles/<make>/<filename>.png
+../../../vehicles/<make>/<filename>.png
 ```
 
-Pass this as `--var VEHICLE_IMG="../../../../library/vehicles/..."`. render.py's `inline_local_images` walks every `<img src="relative/path">` and rewrites it to a base64 data URI before sending to hcti.io, so the same `src` works when you open the template directly in a browser and when it ships to hcti.io.
+render.py's `inline_local_images` walks every `<img src="relative/path">` and rewrites it to a base64 data URI before sending to hcti.io, so the same `src` works when you open `card.html` directly in a browser and when it ships to hcti.io.
 
 Logos follow the same pattern but with tokens: `{{LOGO_BRAND}}`, `{{LOGO_WHITE}}`, `{{LOGO_ORANGE}}`, `{{LOGO_CREST}}`. render.py substitutes these with base64 from `references/brand/logos/*.b64`. Never inline logos by hand.
 
