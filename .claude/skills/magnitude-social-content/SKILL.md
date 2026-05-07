@@ -189,23 +189,25 @@ Pillar → template mapping:
 - **Industry Insight** → no dedicated template; plain copy + Gemini hero
 - **Finance quote example** → use the `quote-of-the-week-01/02/03` carousel set
 
-**Workflow: create card.html in the library, iterate there, render from there.**
+**Workflow: create the post HTML in the library, iterate there, render from there.**
 
-Every post lives as a `card.html` in its library folder before it becomes a PNG. This means work is never lost across sessions — B can come back, edit the file, and pick up where he left off.
+Every post lives as a meaningfully-named `.html` in its library folder before it becomes a PNG. This means work is never lost across sessions — B can come back, edit the file, and pick up where he left off.
 
-**Step A — Create the post folder and card.html**
+**File naming convention:** name the HTML file descriptively, not `card.html`. The PNG output filename will match the HTML filename (e.g. `magnitude-explainer.html` → `magnitude-explainer.png`). Use kebab-case, brand-prefixed where useful: `magnitude-explainer.html`, `jaecoo-7-industry-insight.html`, `quote-of-the-week-bmw-m4.html`. This matters because as the library fills up, scanning a folder of files all called `card.png` is useless — B needs to know what each post is by glancing at the name.
+
+**Step A — Create the post folder and HTML file**
 
 1. Read the template `.html` to see its token list (in the comment block at the top).
 2. Substitute the tokens with the actual content for this post.
-3. Write the result to `library/posts/magnitude/YYYY-MM-DD-[slug]/card.html`.
+3. Write the result to `library/posts/magnitude/YYYY-MM-DD-[slug]/[descriptive-name].html`.
 
-The `card.html` is a complete, standalone HTML file — no tokens remaining. It is the working copy. B can open it directly in a browser to preview, and edit it between sessions without needing Claude.
+The HTML file is complete and standalone — no tokens remaining. It is the working copy. B can open it directly in a browser to preview, and edit it between sessions without needing Claude.
 
 **Step B — Preview (free, no hcti.io credits)**
 
 ```
 python3 .claude/skills/magnitude-social-content/templates/render.py \
-  --file library/posts/magnitude/YYYY-MM-DD-[slug]/card.html \
+  --file library/posts/magnitude/YYYY-MM-DD-[slug]/[name].html \
   --local
 ```
 
@@ -217,17 +219,17 @@ When B says "ship it" or "render it", drop `--local`:
 
 ```
 python3 .claude/skills/magnitude-social-content/templates/render.py \
-  --file library/posts/magnitude/YYYY-MM-DD-[slug]/card.html
+  --file library/posts/magnitude/YYYY-MM-DD-[slug]/[name].html
 ```
 
-render.py POSTs to hcti.io, downloads the PNG to `library/posts/magnitude/YYYY-MM-DD-[slug]/card.png`, and prints the saved path. That PNG is what gets uploaded to Instagram / WhatsApp / LinkedIn.
+render.py POSTs to hcti.io, downloads the PNG alongside the HTML using the same stem (e.g. `magnitude-explainer.html` → `magnitude-explainer.png`), and prints the saved path. That PNG is what gets uploaded to Instagram / WhatsApp / LinkedIn.
 
 - Browser preview and hcti.io output are very close but not pixel-identical (font loading, subpixel rendering, blend mode behaviour can differ). Always eyeball one final hcti.io render before posting.
 - Credentials `HCTI_API_USER_ID` and `HCTI_API_KEY` are in `CLAUDE.local.md`. render.py reads them automatically.
 
 ### Vehicle image path convention
 
-`card.html` files live at `library/posts/magnitude/YYYY-MM-DD-[slug]/card.html`. The relative path from there to the vehicle library is three levels up then into `library/vehicles/`:
+Post HTML files live at `library/posts/magnitude/YYYY-MM-DD-[slug]/[descriptive-name].html`. The relative path from there to the vehicle library is three levels up then into `library/vehicles/`:
 
 ```
 ../../../vehicles/<make>/<filename>.png

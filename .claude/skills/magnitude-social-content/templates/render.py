@@ -209,12 +209,13 @@ def main():
 
     if args.file:
         out_dir = tpl_path.parent
+        out_path = out_dir / f"{tpl_path.stem}.png"
     else:
         date_str = time.strftime("%Y-%m-%d")
         slug = args.slug or template_name
         out_dir = root / "library" / "posts" / "magnitude" / f"{date_str}-{slug}"
         out_dir.mkdir(parents=True, exist_ok=True)
-    out_path = out_dir / "card.png"
+        out_path = out_dir / "card.png"
     subprocess.run(["curl", "-sL", url, "-o", str(out_path)], check=True)
     print(f"Saved: {out_path}")
 
